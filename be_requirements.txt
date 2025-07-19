@@ -1,0 +1,82 @@
+/auth:
+ /login POST:
+  username
+  password
+ /logout POST
+/register POST
+ username
+ password
+/dashboard GET
+ totalKK
+ totalPenduduk
+ skorSDG
+ pelayananDasar
+ sosial
+ ekonomi
+ lingkungan
+ aksesibilitas
+ tataKelola
+/kartukeluarga
+ /add POST
+  
+ /get GET
+  noKK
+  namaKepala
+  jumlah
+  alamat
+  
+  
+database
+
+table users
+username varchar unique pk
+password varchar
+desa uuid 
+
+table villages
+id uuid pk
+nama varchar
+akses_paud
+akses_sd
+akses_smp
+akses_sma
+sarana_kesehatan
+fasilitas_kesehatan
+aktivitas_posyandu
+layanan_dokter
+layanan_bidan
+layanan_tenaga_kesehatan
+jaminan_kesehatan_nasional
+air_minum
+rumah_tidak_layak_huni
+
+table villagers
+nik unique pk
+nama_lengkap
+jenis_kelamin
+tempat_lahir
+tanggal_lahir
+agama
+pendidikan
+pekerjaan
+status_perkawinan
+status_hubungan
+kewarganegaraan
+nomor_paspor optional
+nomor_kitas optional
+nama_ayah
+nama_ibu
+desa uuid
+
+table family_cards
+nik unique pk
+nama_kepala
+alamat
+rt
+rw
+kelurahan
+kecamatan
+kabupaten_kota
+kode_pos
+provinsi
+desa uuid
