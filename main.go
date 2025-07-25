@@ -1,21 +1,64 @@
 package main
 
 import (
-  "fmt"
+	"Apps-I_Desa_Backend/config"
+	"Apps-I_Desa_Backend/routes"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+func setupRoutes(app *fiber.App) {
+	routes.SetupUserRoutes(app)
+	routes.SetupAuthRoutes(app)
+}
 
 func main() {
-  //TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-  // to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-  s := "gopher"
-  fmt.Println("Hello and welcome, %s!", s)
+	config.ConnectDB()
+	defer config.CloseDB()
 
-  for i := 1; i <= 5; i++ {
-	//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-	// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-	fmt.Println("i =", 100/i)
-  }
+	app := fiber.New(fiber.Config{
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": err.Error(),
+			})
+		},
+	})
+
+	app.Use(logger.New())
+	app.Use(recover.New())
+	app.Use(cors.New())
+
+	setupRoutes(app)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	go func() {
+		if err := app.Listen(":" + port); err != nil {
+			log.Fatal("Error starting server: ", err)
+		}
+	}()
+
+	log.Printf("Server started on port %s", port)
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("LokerHub API!")
+	})
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+	<-quit
+
+	log.Println("Shutting down server...")
+	if err := app.Shutdown(); err != nil {
+		log.Fatal("Server shutdown failed: ", err)
+	}
 }

@@ -24,59 +24,64 @@
   namaKepala
   jumlah
   alamat
-  
-  
+
 database
 
+villages one to many users
+villages one to many villagers
+family_cards one to many villagers
+villages one to many family_cards
+
 table users
-username varchar unique pk
+username varchar pk
 password varchar
-desa uuid 
+village uuid
 
 table villages
 id uuid pk
 nama varchar
-akses_paud
-akses_sd
-akses_smp
-akses_sma
-sarana_kesehatan
-fasilitas_kesehatan
-aktivitas_posyandu
-layanan_dokter
-layanan_bidan
-layanan_tenaga_kesehatan
-jaminan_kesehatan_nasional
-air_minum
-rumah_tidak_layak_huni
+akses_paud varchar
+akses_sd varchar
+akses_smp varchar
+akses_sma varchar
+sarana_kesehatan varchar
+fasilitas_kesehatan varchar
+aktivitas_posyandu varchar
+layanan_dokter varchar
+layanan_bidan varchar
+layanan_tenaga_kesehatan varchar
+jaminan_kesehatan_nasional varchar
+air_minum varchar
+rumah_tidak_layak_huni varchar
 
-table villagers
+table villager
 nik unique pk
-nama_lengkap
-jenis_kelamin
-tempat_lahir
-tanggal_lahir
-agama
-pendidikan
-pekerjaan
-status_perkawinan
-status_hubungan
-kewarganegaraan
+nama_lengkap varchar
+jenis_kelamin varchar
+tempat_lahir varchar
+tanggal_lahir date
+agama varchar
+pendidikan varchar
+pekerjaan varchar
+status_perkawinan varchar
+status_hubungan varchar
+kewarganegaraan varchar
 nomor_paspor optional
 nomor_kitas optional
-nama_ayah
-nama_ibu
-desa uuid
+nama_ayah varchar
+nama_ibu varchar
+village uuid
+family_cardID varchar
 
 table family_cards
-nik unique pk
-nama_kepala
-alamat
-rt
-rw
-kelurahan
-kecamatan
-kabupaten_kota
-kode_pos
-provinsi
-desa uuid
+nik varchar pk
+nama_kepala varchar
+alamat varchar
+rt varchar
+rw varchar
+kelurahan varchar
+kecamatan varchar
+kabupaten_kota varchar
+kode_pos varchar
+provinsi varchar
+village uuid
