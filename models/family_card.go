@@ -1,18 +1,22 @@
 package models
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 type FamilyCard struct {
-	NIK           string `gorm:"primaryKey"`
-	NamaKepala    string
-	Alamat        string
-	RT            string
-	RW            string
-	Kelurahan     string
-	Kecamatan     string
-	KabupatenKota string
-	KodePos       string
-	Provinsi      string
+	NIK           string    `gorm:"primaryKey"`
+	Alamat        string    `gorm:"size:50;not null"`
+	RT            string    `gorm:"size:50;not null"`
+	RW            string    `gorm:"size:50;not null"`
+	Kelurahan     string    `gorm:"size:50;not null"`
+	Kecamatan     string    `gorm:"size:50;not null"`
+	KabupatenKota string    `gorm:"size:50;not null"`
+	KodePos       string    `gorm:"size:50;not null"`
+	Provinsi      string    `gorm:"size:50;not null"`
+	CreatedAt     time.Time `gorm:"autoCreateTime"`
+	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 	VillageID     uuid.UUID `gorm:"type:uuid;not null"`
 
 	// Belongs to Village

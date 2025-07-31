@@ -18,6 +18,9 @@ func setupRoutes(app *fiber.App) {
 	routes.SetupUserRoutes(app)
 	routes.SetupAuthRoutes(app)
 	routes.SetupSubDimensionRoutes(app)
+	routes.SetupVillagerRoutes(app)
+	routes.SetupVillageRoutes(app)
+	routes.SetupFamilyCardRoutes(app)
 }
 
 func main() {

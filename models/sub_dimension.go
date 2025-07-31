@@ -5,219 +5,219 @@ import "github.com/google/uuid"
 type SubDimensiPendidikan struct {
 	ID                 uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID          uuid.UUID `gorm:"type:uuid;not null"`
-	Year               *int
-	KetersediaanPaud   string
-	KemudahanAksesPaud string
-	ApmPaud            string
-	KetersediaanSd     string
-	KemudahanAksesSd   string
-	ApmSd              string
-	KetersediaanSmp    string
-	KemudahanAksesSmp  string
-	ApmSmp             string
-	KetersediaanSma    string
-	KemudahanAksesSma  string
-	ApmSma             string
-	Village            Village `gorm:"foreignKey:VillageID"`
+	Year               int       `gorm:"size:4"`
+	KetersediaanPaud   string    `gorm:"size:50;not null"`
+	KemudahanAksesPaud string    `gorm:"size:50;not null"`
+	ApmPaud            string    `gorm:"size:50;not null"`
+	KetersediaanSd     string    `gorm:"size:50;not null"`
+	KemudahanAksesSd   string    `gorm:"size:50;not null"`
+	ApmSd              string    `gorm:"size:50;not null"`
+	KetersediaanSmp    string    `gorm:"size:50;not null"`
+	KemudahanAksesSmp  string    `gorm:"size:50;not null"`
+	ApmSmp             string    `gorm:"size:50;not null"`
+	KetersediaanSma    string    `gorm:"size:50;not null"`
+	KemudahanAksesSma  string    `gorm:"size:50;not null"`
+	ApmSma             string    `gorm:"size:50;not null"`
+	Village            Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiKesehatan struct {
 	ID                                         uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                                  uuid.UUID `gorm:"type:uuid;not null"`
-	Year                                       *int
-	KemudahanAksesSaranaKesehatan              string
-	KetersediaanSaranaKesehatan                string
-	KemudahanAksesFasilitasKesehatan           string
-	KetersediaanPosyandu                       string
-	JumlahAktivitasPosyandu                    string
-	KemudahanAksesPosyandu                     string
-	KetersediaanLayananDokter                  string
-	HariOperasionalLayananDokter               string
-	PenyediaLayananDokter                      string
-	PenyediaTransportasiLayananDokter          string
-	KetersediaanLayananBidan                   string
-	HariOperasionalLayananBidan                string
-	PenyediaLayananBidan                       string
-	PenyediaTransportasiLayananBidan           string
-	KetersediaanLayananTenagaKesehatan         string
-	HariOperasionalLayananTenagaKesehatan      string
-	PenyediaLayananTenagaKesehatan             string
-	PenyediaTransportasiLayananTenagaKesehatan string
-	PersentasePesertaJaminanKesehatan          string
-	KegiatanSosialisasiJaminanKesehatan        string
-	Village                                    Village `gorm:"foreignKey:VillageID"`
+	Year                                       int       `gorm:"size:4"`
+	KemudahanAksesSaranaKesehatan              string    `gorm:"size:50;not null"`
+	KetersediaanSaranaKesehatan                string    `gorm:"size:50;not null"`
+	KemudahanAksesFasilitasKesehatan           string    `gorm:"size:50;not null"`
+	KetersediaanPosyandu                       string    `gorm:"size:50;not null"`
+	JumlahAktivitasPosyandu                    string    `gorm:"size:50;not null"`
+	KemudahanAksesPosyandu                     string    `gorm:"size:50;not null"`
+	KetersediaanLayananDokter                  string    `gorm:"size:50;not null"`
+	HariOperasionalLayananDokter               string    `gorm:"size:50;not null"`
+	PenyediaLayananDokter                      string    `gorm:"size:50;not null"`
+	PenyediaTransportasiLayananDokter          string    `gorm:"size:50;not null"`
+	KetersediaanLayananBidan                   string    `gorm:"size:50;not null"`
+	HariOperasionalLayananBidan                string    `gorm:"size:50;not null"`
+	PenyediaLayananBidan                       string    `gorm:"size:50;not null"`
+	PenyediaTransportasiLayananBidan           string    `gorm:"size:50;not null"`
+	KetersediaanLayananTenagaKesehatan         string    `gorm:"size:50;not null"`
+	HariOperasionalLayananTenagaKesehatan      string    `gorm:"size:50;not null"`
+	PenyediaLayananTenagaKesehatan             string    `gorm:"size:50;not null"`
+	PenyediaTransportasiLayananTenagaKesehatan string    `gorm:"size:50;not null"`
+	PersentasePesertaJaminanKesehatan          string    `gorm:"size:50;not null"`
+	KegiatanSosialisasiJaminanKesehatan        string    `gorm:"size:50;not null"`
+	Village                                    Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiUtilitasDasar struct {
 	ID                            uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                     uuid.UUID `gorm:"type:uuid;not null"`
-	Year                          *int
-	OperasionalAirMinum           string
-	KetersediaanAirMinum          string
-	KemudahanAksesAirMinum        string
-	KualitasAirMinum              string
-	PersentaseRumahTidakLayakHuni string
-	Village                       Village `gorm:"foreignKey:VillageID"`
+	Year                          int       `gorm:"size:4"`
+	OperasionalAirMinum           string    `gorm:"size:50;not null"`
+	KetersediaanAirMinum          string    `gorm:"size:50;not null"`
+	KemudahanAksesAirMinum        string    `gorm:"size:50;not null"`
+	KualitasAirMinum              string    `gorm:"size:50;not null"`
+	PersentaseRumahTidakLayakHuni string    `gorm:"size:50;not null"`
+	Village                       Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiAktivitas struct {
 	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
-	Year                              *int
-	KearifanSosial                    string
-	KearifanSosialDipertahankan       string
-	KegiatanGotongRoyong              string
-	FrekuensiGotongRoyong             string
-	KeterlibatanWargaGotongRoyong     string
-	FrekuensiKegiatanOlahraga         string
-	PenyelesaianKonflikSecaraDamai    string
-	PeranAparatKeamananMediator       string
-	PeranAparatPemerintah             string
-	PeranTokohMasyarakat              string
-	PeranTokohAgama                   string
-	SatuanKeamananLingkungan          string
-	AktivitasSatuanKeamananLingkungan string
-	Village                           Village `gorm:"foreignKey:VillageID"`
+	Year                              int       `gorm:"size:4"`
+	KearifanSosial                    string    `gorm:"size:50;not null"`
+	KearifanSosialDipertahankan       string    `gorm:"size:50;not null"`
+	KegiatanGotongRoyong              string    `gorm:"size:50;not null"`
+	FrekuensiGotongRoyong             string    `gorm:"size:50;not null"`
+	KeterlibatanWargaGotongRoyong     string    `gorm:"size:50;not null"`
+	FrekuensiKegiatanOlahraga         string    `gorm:"size:50;not null"`
+	PenyelesaianKonflikSecaraDamai    string    `gorm:"size:50;not null"`
+	PeranAparatKeamananMediator       string    `gorm:"size:50;not null"`
+	PeranAparatPemerintah             string    `gorm:"size:50;not null"`
+	PeranTokohMasyarakat              string    `gorm:"size:50;not null"`
+	PeranTokohAgama                   string    `gorm:"size:50;not null"`
+	SatuanKeamananLingkungan          string    `gorm:"size:50;not null"`
+	AktivitasSatuanKeamananLingkungan string    `gorm:"size:50;not null"`
+	Village                           Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiFasilitasMasyarakat struct {
 	ID                                   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                            uuid.UUID `gorm:"type:uuid;not null"`
-	Year                                 *int
-	TerdapatTamanBacaanMasyarakat        string
-	HariOperasionalTamanBacaanMasyarakat string
-	KetersediaanFasilitasOlahraga        string
-	KeberadaanRuangPublikTerbuka         string
-	Village                              Village `gorm:"foreignKey:VillageID"`
+	Year                                 int       `gorm:"size:4"`
+	TerdapatTamanBacaanMasyarakat        string    `gorm:"size:50;not null"`
+	HariOperasionalTamanBacaanMasyarakat string    `gorm:"size:50;not null"`
+	KetersediaanFasilitasOlahraga        string    `gorm:"size:50;not null"`
+	KeberadaanRuangPublikTerbuka         string    `gorm:"size:50;not null"`
+	Village                              Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiProduksiDesa struct {
 	ID                                       uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                                uuid.UUID `gorm:"type:uuid;not null"`
-	Year                                     *int
-	KeragamanAktivitasEkonomi                string
-	KeaktifanAktivitasEkonomi                string
-	KetersediaanProdukUnggulanDesa           string
-	CakupanPasarProdukUnggulan               string
-	KetersediaanMerekDagang                  string
-	TerdapatKearifanLokalEkonomi             string
-	TelahDilakukanKerjaSamaDenganDesaLainnya string
-	TelahDilakukanKerjaSamaDenganPihakKetiga string
-	Village                                  Village `gorm:"foreignKey:VillageID"`
+	Year                                     int       `gorm:"size:4"`
+	KeragamanAktivitasEkonomi                string    `gorm:"size:50;not null"`
+	KeaktifanAktivitasEkonomi                string    `gorm:"size:50;not null"`
+	KetersediaanProdukUnggulanDesa           string    `gorm:"size:50;not null"`
+	CakupanPasarProdukUnggulan               string    `gorm:"size:50;not null"`
+	KetersediaanMerekDagang                  string    `gorm:"size:50;not null"`
+	TerdapatKearifanLokalEkonomi             string    `gorm:"size:50;not null"`
+	TelahDilakukanKerjaSamaDenganDesaLainnya string    `gorm:"size:50;not null"`
+	TelahDilakukanKerjaSamaDenganPihakKetiga string    `gorm:"size:50;not null"`
+	Village                                  Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiFasilitasPendukungEkonomi struct {
 	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
-	Year                              *int
-	KetersediaanPendidikanNonFormal   string
-	KeterlibatanPendidikanNonFormal   string
-	KetersediaanPasarRakyat           string
-	KemudahanAksesPasarRakyat         string
-	KetersediaanToko                  string
-	KemudahanAksesToko                string
-	KetersediaanRumahMakan            string
-	KemudahanAksesRumahMakan          string
-	KetersediaanPenginapan            string
-	KemudahanAksesPenginapan          string
-	KetersediaanLogistik              string
-	KemudahanAksesLogistik            string
-	TerdapatBumd                      string
-	BumdBerbadanHukum                 string
-	HariOperasionalLembagaEkonomi     string
-	KetersediaanLembagaEkonomiLainnya string
-	KetersediaanKud                   string
-	KetersediaanUmkm                  string
-	LayananPerbankan                  string
-	HariOperasionalKeuangan           string
-	LayananFasilitasKreditKur         string
-	LayananFasilitasKreditKkpE        string
-	LayananFasilitasKreditKuk         string
-	StatusLayananFasilitasKredit      string
-	Village                           Village `gorm:"foreignKey:VillageID"`
+	Year                              int       `gorm:"size:4"`
+	KetersediaanPendidikanNonFormal   string    `gorm:"size:50;not null"`
+	KeterlibatanPendidikanNonFormal   string    `gorm:"size:50;not null"`
+	KetersediaanPasarRakyat           string    `gorm:"size:50;not null"`
+	KemudahanAksesPasarRakyat         string    `gorm:"size:50;not null"`
+	KetersediaanToko                  string    `gorm:"size:50;not null"`
+	KemudahanAksesToko                string    `gorm:"size:50;not null"`
+	KetersediaanRumahMakan            string    `gorm:"size:50;not null"`
+	KemudahanAksesRumahMakan          string    `gorm:"size:50;not null"`
+	KetersediaanPenginapan            string    `gorm:"size:50;not null"`
+	KemudahanAksesPenginapan          string    `gorm:"size:50;not null"`
+	KetersediaanLogistik              string    `gorm:"size:50;not null"`
+	KemudahanAksesLogistik            string    `gorm:"size:50;not null"`
+	TerdapatBumd                      string    `gorm:"size:50;not null"`
+	BumdBerbadanHukum                 string    `gorm:"size:50;not null"`
+	HariOperasionalLembagaEkonomi     string    `gorm:"size:50;not null"`
+	KetersediaanLembagaEkonomiLainnya string    `gorm:"size:50;not null"`
+	KetersediaanKud                   string    `gorm:"size:50;not null"`
+	KetersediaanUmkm                  string    `gorm:"size:50;not null"`
+	LayananPerbankan                  string    `gorm:"size:50;not null"`
+	HariOperasionalKeuangan           string    `gorm:"size:50;not null"`
+	LayananFasilitasKreditKur         string    `gorm:"size:50;not null"`
+	LayananFasilitasKreditKkpE        string    `gorm:"size:50;not null"`
+	LayananFasilitasKreditKuk         string    `gorm:"size:50;not null"`
+	StatusLayananFasilitasKredit      string    `gorm:"size:50;not null"`
+	Village                           Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiPengelolaanLingkungan struct {
 	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
-	Year                              *int
-	UpayaMenjagaKelestarianLingkungan string
-	RegulasiPelestarianLingkungan     string
-	KegiatanPelestarianLingkungan     string
-	PemanfaatanEnergiTerbarukan       string
-	TempatPembuananganSampah          string
-	PengelolaanSampah                 string
-	PemanfaatanSampah                 string
-	KejadianPencemaranLingkungan      string
-	KetersediaanJamban                string
-	KeberfungsianJamban               string
-	KetersediaanSepticTank            string
-	PembuanganAirLimbahCairRumah      string
-	Village                           Village `gorm:"foreignKey:VillageID"`
+	Year                              int       `gorm:"size:4"`
+	UpayaMenjagaKelestarianLingkungan string    `gorm:"size:50;not null"`
+	RegulasiPelestarianLingkungan     string    `gorm:"size:50;not null"`
+	KegiatanPelestarianLingkungan     string    `gorm:"size:50;not null"`
+	PemanfaatanEnergiTerbarukan       string    `gorm:"size:50;not null"`
+	TempatPembuananganSampah          string    `gorm:"size:50;not null"`
+	PengelolaanSampah                 string    `gorm:"size:50;not null"`
+	PemanfaatanSampah                 string    `gorm:"size:50;not null"`
+	KejadianPencemaranLingkungan      string    `gorm:"size:50;not null"`
+	KetersediaanJamban                string    `gorm:"size:50;not null"`
+	KeberfungsianJamban               string    `gorm:"size:50;not null"`
+	KetersediaanSepticTank            string    `gorm:"size:50;not null"`
+	PembuanganAirLimbahCairRumah      string    `gorm:"size:50;not null"`
+	Village                           Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiPenanggulanganBencana struct {
 	ID                                  uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                           uuid.UUID `gorm:"type:uuid;not null"`
-	Year                                *int
-	AspekInformasiKebencanaan           string
-	FasilitasMitigasiBencana            string
-	AksesMenujuFasilitasMitigasiBencana string
-	AktivitasMitigasi                   string
-	FasilitasTanggapDaruratBencana      string
-	Village                             Village `gorm:"foreignKey:VillageID"`
+	Year                                int       `gorm:"size:4"`
+	AspekInformasiKebencanaan           string    `gorm:"size:50;not null"`
+	FasilitasMitigasiBencana            string    `gorm:"size:50;not null"`
+	AksesMenujuFasilitasMitigasiBencana string    `gorm:"size:50;not null"`
+	AktivitasMitigasi                   string    `gorm:"size:50;not null"`
+	FasilitasTanggapDaruratBencana      string    `gorm:"size:50;not null"`
+	Village                             Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiKondisiAksesJalan struct {
 	ID                   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID            uuid.UUID `gorm:"type:uuid;not null"`
-	Year                 *int
-	JenisPermukaanJalan  string
-	KualitasJalan        string
-	PeneranganJalanUtama string
-	OperasionalPju       string
-	Village              Village `gorm:"foreignKey:VillageID"`
+	Year                 int       `gorm:"size:4"`
+	JenisPermukaanJalan  string    `gorm:"size:50;not null"`
+	KualitasJalan        string    `gorm:"size:50;not null"`
+	PeneranganJalanUtama string    `gorm:"size:50;not null"`
+	OperasionalPju       string    `gorm:"size:50;not null"`
+	Village              Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiKemudahanAkses struct {
 	ID                           uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                    uuid.UUID `gorm:"type:uuid;not null"`
-	Year                         *int
-	AngkutanPerdesaan            string
-	OperasionalAngkutanPerdesaan string
-	PelayananListrik             string
-	DurasiLayananListrik         string
-	AksesTelepon                 string
-	AksesInternet                string
-	Village                      Village `gorm:"foreignKey:VillageID"`
+	Year                         int       `gorm:"size:4"`
+	AngkutanPerdesaan            string    `gorm:"size:50;not null"`
+	OperasionalAngkutanPerdesaan string    `gorm:"size:50;not null"`
+	PelayananListrik             string    `gorm:"size:50;not null"`
+	DurasiLayananListrik         string    `gorm:"size:50;not null"`
+	AksesTelepon                 string    `gorm:"size:50;not null"`
+	AksesInternet                string    `gorm:"size:50;not null"`
+	Village                      Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiKelembagaanPelayananDesa struct {
 	ID                                     uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                              uuid.UUID `gorm:"type:uuid;not null"`
-	Year                                   *int
-	LayananDiberikan                       string
-	PublikasiInformasiPelayanan            string
-	PelayananAdministrasi                  string
-	PelayananPengaduan                     string
-	PelayananLainnya                       string
-	MusyawarahDesa                         string
-	MusyawarahDesaDidatangiUnsurMasyarakat string
-	Village                                Village `gorm:"foreignKey:VillageID"`
+	Year                                   int       `gorm:"size:4"`
+	LayananDiberikan                       string    `gorm:"size:50;not null"`
+	PublikasiInformasiPelayanan            string    `gorm:"size:50;not null"`
+	PelayananAdministrasi                  string    `gorm:"size:50;not null"`
+	PelayananPengaduan                     string    `gorm:"size:50;not null"`
+	PelayananLainnya                       string    `gorm:"size:50;not null"`
+	MusyawarahDesa                         string    `gorm:"size:50;not null"`
+	MusyawarahDesaDidatangiUnsurMasyarakat string    `gorm:"size:50;not null"`
+	Village                                Village   `gorm:"foreignKey:VillageID"`
 }
 
 type SubDimensiTataKelolaKeuanganDesa struct {
 	ID                    uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID             uuid.UUID `gorm:"type:uuid;not null"`
-	Year                  *int
-	PendapatanAsliDesa    string
-	PeningkatanPades      string
-	PenyertaanModalDdBumd string
-	AsetTanahDesa         string
-	AsetKantorDesa        string
-	AsetPasarDesa         string
-	AsetLainnya           string
-	ProduktivitasAsetDesa string
-	InventarisasiAsetDesa string
-	Village               Village `gorm:"foreignKey:VillageID"`
+	Year                  int       `gorm:"size:4"`
+	PendapatanAsliDesa    string    `gorm:"size:50;not null"`
+	PeningkatanPades      string    `gorm:"size:50;not null"`
+	PenyertaanModalDdBumd string    `gorm:"size:50;not null"`
+	AsetTanahDesa         string    `gorm:"size:50;not null"`
+	AsetKantorDesa        string    `gorm:"size:50;not null"`
+	AsetPasarDesa         string    `gorm:"size:50;not null"`
+	AsetLainnya           string    `gorm:"size:50;not null"`
+	ProduktivitasAsetDesa string    `gorm:"size:50;not null"`
+	InventarisasiAsetDesa string    `gorm:"size:50;not null"`
+	Village               Village   `gorm:"foreignKey:VillageID"`
 }

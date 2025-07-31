@@ -33,7 +33,7 @@ func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimen
 
 	subDimensiPendidikan := &models.SubDimensiPendidikan{
 		VillageID:          villageID,
-		Year:               req.Year,
+		Year:               *req.Year,
 		KetersediaanPaud:   req.KetersediaanPaud,
 		KemudahanAksesPaud: req.KemudahanAksesPaud,
 		ApmPaud:            req.ApmPaud,
@@ -73,7 +73,7 @@ func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimens
 
 	subDimensiKesehatan := &models.SubDimensiKesehatan{
 		VillageID:                                  villageID,
-		Year:                                       req.Year,
+		Year:                                       *req.Year,
 		KemudahanAksesSaranaKesehatan:              req.KemudahanAksesSaranaKesehatan,
 		KetersediaanSaranaKesehatan:                req.KetersediaanSaranaKesehatan,
 		KemudahanAksesFasilitasKesehatan:           req.KemudahanAksesFasilitasKesehatan,
@@ -123,7 +123,7 @@ func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDi
 
 	subDimensiUtilitasDasar := &models.SubDimensiUtilitasDasar{
 		VillageID:                     villageID,
-		Year:                          req.Year,
+		Year:                          *req.Year,
 		OperasionalAirMinum:           req.OperasionalAirMinum,
 		KetersediaanAirMinum:          req.KetersediaanAirMinum,
 		KemudahanAksesAirMinum:        req.KemudahanAksesAirMinum,
@@ -158,7 +158,7 @@ func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimens
 
 	subDimensiAktivitas := &models.SubDimensiAktivitas{
 		VillageID:                         villageID,
-		Year:                              req.Year,
+		Year:                              *req.Year,
 		KearifanSosial:                    req.KearifanSosial,
 		KearifanSosialDipertahankan:       req.KearifanSosialDipertahankan,
 		KegiatanGotongRoyong:              req.KegiatanGotongRoyong,
@@ -201,7 +201,7 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.Ad
 
 	subDimensiFasilitasMasyarakat := &models.SubDimensiFasilitasMasyarakat{
 		VillageID:                            villageID,
-		Year:                                 req.Year,
+		Year:                                 *req.Year,
 		TerdapatTamanBacaanMasyarakat:        req.TerdapatTamanBacaanMasyarakat,
 		HariOperasionalTamanBacaanMasyarakat: req.HariOperasionalTamanBacaanMasyarakat,
 		KetersediaanFasilitasOlahraga:        req.KetersediaanFasilitasOlahraga,
@@ -234,7 +234,7 @@ func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDim
 
 	subDimensiPendidikan := &models.SubDimensiProduksiDesa{
 		VillageID:                                villageID,
-		Year:                                     req.Year,
+		Year:                                     *req.Year,
 		KeragamanAktivitasEkonomi:                req.KeragamanAktivitasEkonomi,
 		KeaktifanAktivitasEkonomi:                req.KeaktifanAktivitasEkonomi,
 		KetersediaanProdukUnggulanDesa:           req.KetersediaanProdukUnggulanDesa,
@@ -272,7 +272,7 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *d
 
 	model := &models.SubDimensiFasilitasPendukungEkonomi{
 		VillageID:                         villageID,
-		Year:                              req.Year,
+		Year:                              *req.Year,
 		KetersediaanPendidikanNonFormal:   req.KetersediaanPendidikanNonFormal,
 		KeterlibatanPendidikanNonFormal:   req.KeterlibatanPendidikanNonFormal,
 		KetersediaanPasarRakyat:           req.KetersediaanPasarRakyat,
@@ -327,7 +327,7 @@ func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.
 
 	model := &models.SubDimensiPengelolaanLingkungan{
 		VillageID:                         villageID,
-		Year:                              req.Year,
+		Year:                              *req.Year,
 		UpayaMenjagaKelestarianLingkungan: req.UpayaMenjagaKelestarianLingkungan,
 		RegulasiPelestarianLingkungan:     req.RegulasiPelestarianLingkungan,
 		KegiatanPelestarianLingkungan:     req.KegiatanPelestarianLingkungan,
@@ -370,7 +370,7 @@ func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.
 
 	model := &models.SubDimensiPenanggulanganBencana{
 		VillageID:                           villageID,
-		Year:                                req.Year,
+		Year:                                *req.Year,
 		AspekInformasiKebencanaan:           req.AspekInformasiKebencanaan,
 		FasilitasMitigasiBencana:            req.FasilitasMitigasiBencana,
 		AksesMenujuFasilitasMitigasiBencana: req.AksesMenujuFasilitasMitigasiBencana,
@@ -406,7 +406,7 @@ func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddS
 
 	model := &models.SubDimensiKondisiAksesJalan{
 		VillageID:            villageID,
-		Year:                 req.Year,
+		Year:                 *req.Year,
 		JenisPermukaanJalan:  req.JenisPermukaanJalan,
 		KualitasJalan:        req.KualitasJalan,
 		PeneranganJalanUtama: req.PeneranganJalanUtama,
@@ -441,7 +441,7 @@ func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubD
 
 	model := &models.SubDimensiKemudahanAkses{
 		VillageID:                    villageID,
-		Year:                         req.Year,
+		Year:                         *req.Year,
 		AngkutanPerdesaan:            req.AngkutanPerdesaan,
 		OperasionalAngkutanPerdesaan: req.OperasionalAngkutanPerdesaan,
 		PelayananListrik:             req.PelayananListrik,
@@ -478,7 +478,7 @@ func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dt
 
 	model := &models.SubDimensiKelembagaanPelayananDesa{
 		VillageID:                              villageID,
-		Year:                                   req.Year,
+		Year:                                   *req.Year,
 		LayananDiberikan:                       req.LayananDiberikan,
 		PublikasiInformasiPelayanan:            req.PublikasiInformasiPelayanan,
 		PelayananAdministrasi:                  req.PelayananAdministrasi,
@@ -516,7 +516,7 @@ func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(req *dtos
 
 	model := &models.SubDimensiTataKelolaKeuanganDesa{
 		VillageID:             villageID,
-		Year:                  req.Year,
+		Year:                  *req.Year,
 		PendapatanAsliDesa:    req.PendapatanAsliDesa,
 		PeningkatanPades:      req.PeningkatanPades,
 		PenyertaanModalDdBumd: req.PenyertaanModalDdBumd,

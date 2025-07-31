@@ -4,7 +4,7 @@ import "github.com/google/uuid"
 
 type Village struct {
 	ID   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
-	Nama string
+	Name string    `gorm:"size:100;not null"`
 
 	// One-to-many relationships
 	Users                               []User                                `gorm:"foreignKey:VillageID"`
