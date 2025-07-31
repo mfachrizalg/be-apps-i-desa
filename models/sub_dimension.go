@@ -3,7 +3,7 @@ package models
 import "github.com/google/uuid"
 
 type SubDimensiPendidikan struct {
-	ID                 uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                 uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID          uuid.UUID `gorm:"type:uuid;not null"`
 	Year               *int
 	KetersediaanPaud   string
@@ -22,7 +22,7 @@ type SubDimensiPendidikan struct {
 }
 
 type SubDimensiKesehatan struct {
-	ID                                         uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                         uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                                  uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                       *int
 	KemudahanAksesSaranaKesehatan              string
@@ -49,7 +49,7 @@ type SubDimensiKesehatan struct {
 }
 
 type SubDimensiUtilitasDasar struct {
-	ID                            uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                            uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                     uuid.UUID `gorm:"type:uuid;not null"`
 	Year                          *int
 	OperasionalAirMinum           string
@@ -61,7 +61,7 @@ type SubDimensiUtilitasDasar struct {
 }
 
 type SubDimensiAktivitas struct {
-	ID                                uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
 	Year                              *int
 	KearifanSosial                    string
@@ -81,7 +81,7 @@ type SubDimensiAktivitas struct {
 }
 
 type SubDimensiFasilitasMasyarakat struct {
-	ID                                   uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                            uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                 *int
 	TerdapatTamanBacaanMasyarakat        string
@@ -92,7 +92,7 @@ type SubDimensiFasilitasMasyarakat struct {
 }
 
 type SubDimensiProduksiDesa struct {
-	ID                                       uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                       uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                                uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                     *int
 	KeragamanAktivitasEkonomi                string
@@ -107,7 +107,7 @@ type SubDimensiProduksiDesa struct {
 }
 
 type SubDimensiFasilitasPendukungEkonomi struct {
-	ID                                uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
 	Year                              *int
 	KetersediaanPendidikanNonFormal   string
@@ -138,7 +138,7 @@ type SubDimensiFasilitasPendukungEkonomi struct {
 }
 
 type SubDimensiPengelolaanLingkungan struct {
-	ID                                uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
 	Year                              *int
 	UpayaMenjagaKelestarianLingkungan string
@@ -157,7 +157,7 @@ type SubDimensiPengelolaanLingkungan struct {
 }
 
 type SubDimensiPenanggulanganBencana struct {
-	ID                                  uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                  uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                           uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                *int
 	AspekInformasiKebencanaan           string
@@ -169,7 +169,7 @@ type SubDimensiPenanggulanganBencana struct {
 }
 
 type SubDimensiKondisiAksesJalan struct {
-	ID                   uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID            uuid.UUID `gorm:"type:uuid;not null"`
 	Year                 *int
 	JenisPermukaanJalan  string
@@ -180,7 +180,7 @@ type SubDimensiKondisiAksesJalan struct {
 }
 
 type SubDimensiKemudahanAkses struct {
-	ID                           uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                           uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                    uuid.UUID `gorm:"type:uuid;not null"`
 	Year                         *int
 	AngkutanPerdesaan            string
@@ -193,7 +193,7 @@ type SubDimensiKemudahanAkses struct {
 }
 
 type SubDimensiKelembagaanPelayananDesa struct {
-	ID                                     uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                                     uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                              uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                   *int
 	LayananDiberikan                       string
@@ -207,7 +207,7 @@ type SubDimensiKelembagaanPelayananDesa struct {
 }
 
 type SubDimensiTataKelolaKeuanganDesa struct {
-	ID                    uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID                    uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID             uuid.UUID `gorm:"type:uuid;not null"`
 	Year                  *int
 	PendapatanAsliDesa    string

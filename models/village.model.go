@@ -3,7 +3,7 @@ package models
 import "github.com/google/uuid"
 
 type Village struct {
-	ID   uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	Nama string
 
 	// One-to-many relationships

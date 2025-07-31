@@ -17,6 +17,7 @@ import (
 func setupRoutes(app *fiber.App) {
 	routes.SetupUserRoutes(app)
 	routes.SetupAuthRoutes(app)
+	routes.SetupSubDimensionRoutes(app)
 }
 
 func main() {
@@ -50,7 +51,7 @@ func main() {
 
 	log.Printf("Server started on port %s", port)
 	app.Get("/", func(ctx *fiber.Ctx) error {
-		return ctx.SendString("LokerHub API!")
+		return ctx.SendString("Apps-I Desa API!")
 	})
 
 	quit := make(chan os.Signal, 1)

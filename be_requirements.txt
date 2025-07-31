@@ -18,12 +18,9 @@
  tataKelola
 /kartukeluarga (blm)
  /add POST
-  
- /get GET
-  noKK
-  namaKepala
-  jumlah
-  alamat
+  nik
+      GET
+  nik
 
 database
 
