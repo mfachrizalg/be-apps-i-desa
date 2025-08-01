@@ -29,7 +29,7 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	}
 
 	if existingUser != nil {
-		return nil, errors.New("email already registered")
+		return nil, errors.New("username already registered")
 	}
 
 	// Hash the password
@@ -42,7 +42,7 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	// Create new user
 	user := &models.User{
 		Username:  request.Username,
-		Password:  string(hashedPassword), // Password should be hashed in a real application
+		Password:  string(hashedPassword),
 		VillageID: request.VillageID,
 	}
 
@@ -51,7 +51,14 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 
 	err = s.userRepo.CreateWithTx(tx, user)
 	if err != nil {
-		return nil, err
+		log.Error("Error creating user: ", err)
+		return nil, errors.New("failed to create user")
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		log.Error("Error committing transaction: ", err)
+		return nil, errors.New("failed to complete registration")
 	}
 
 	return &dtos.MessageResponse{
