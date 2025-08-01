@@ -91,6 +91,19 @@ func migrateDB(db *gorm.DB) error {
 		&models2.Village{},
 		&models2.Villager{},
 		&models2.FamilyCard{},
+		&models2.SubDimensiAktivitas{},
+		&models2.SubDimensiFasilitasMasyarakat{},
+		&models2.SubDimensiFasilitasPendukungEkonomi{},
+		&models2.SubDimensiKelembagaanPelayananDesa{},
+		&models2.SubDimensiKemudahanAkses{},
+		&models2.SubDimensiKondisiAksesJalan{},
+		&models2.SubDimensiPendidikan{},
+		&models2.SubDimensiKesehatan{},
+		&models2.SubDimensiUtilitasDasar{},
+		&models2.SubDimensiProduksiDesa{},
+		&models2.SubDimensiPengelolaanLingkungan{},
+		&models2.SubDimensiPenanggulanganBencana{},
+		&models2.SubDimensiTataKelolaKeuanganDesa{},
 	}
 
 	return db.AutoMigrate(m...)
