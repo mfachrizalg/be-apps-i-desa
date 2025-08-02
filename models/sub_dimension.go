@@ -9,13 +9,10 @@ type SubDimensiPendidikan struct {
 	KetersediaanPaud   string    `gorm:"size:50;not null"`
 	KemudahanAksesPaud string    `gorm:"size:50;not null"`
 	ApmPaud            string    `gorm:"size:50;not null"`
-	KetersediaanSd     string    `gorm:"size:50;not null"`
 	KemudahanAksesSd   string    `gorm:"size:50;not null"`
 	ApmSd              string    `gorm:"size:50;not null"`
-	KetersediaanSmp    string    `gorm:"size:50;not null"`
 	KemudahanAksesSmp  string    `gorm:"size:50;not null"`
 	ApmSmp             string    `gorm:"size:50;not null"`
-	KetersediaanSma    string    `gorm:"size:50;not null"`
 	KemudahanAksesSma  string    `gorm:"size:50;not null"`
 	ApmSma             string    `gorm:"size:50;not null"`
 	Village            Village   `gorm:"foreignKey:VillageID"`
@@ -26,7 +23,7 @@ type SubDimensiKesehatan struct {
 	VillageID                                  uuid.UUID `gorm:"type:uuid;not null"`
 	Year                                       int       `gorm:"size:4"`
 	KemudahanAksesSaranaKesehatan              string    `gorm:"size:50;not null"`
-	KetersediaanSaranaKesehatan                string    `gorm:"size:50;not null"`
+	KetersediaanFasilitasKesehatan             string    `gorm:"size:50;not null"`
 	KemudahanAksesFasilitasKesehatan           string    `gorm:"size:50;not null"`
 	KetersediaanPosyandu                       string    `gorm:"size:50;not null"`
 	JumlahAktivitasPosyandu                    string    `gorm:"size:50;not null"`
@@ -64,8 +61,8 @@ type SubDimensiAktivitas struct {
 	ID                                uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 	VillageID                         uuid.UUID `gorm:"type:uuid;not null"`
 	Year                              int       `gorm:"size:4"`
-	KearifanSosial                    string    `gorm:"size:50;not null"`
-	KearifanSosialDipertahankan       string    `gorm:"size:50;not null"`
+	KearifanBudayaSosial              string    `gorm:"size:50;not null"`
+	KearifanBudayaSosialDipertahankan string    `gorm:"size:50;not null"`
 	KegiatanGotongRoyong              string    `gorm:"size:50;not null"`
 	FrekuensiGotongRoyong             string    `gorm:"size:50;not null"`
 	KeterlibatanWargaGotongRoyong     string    `gorm:"size:50;not null"`

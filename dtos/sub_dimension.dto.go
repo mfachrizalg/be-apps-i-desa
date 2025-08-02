@@ -4,13 +4,10 @@ type AddSubDimensionPendidikanRequest struct {
 	KetersediaanPaud   string `json:"ketersediaan_paud" validate:"required"`
 	KemudahanAksesPaud string `json:"kemudahan_akses_paud" validate:"required"`
 	ApmPaud            string `json:"apm_paud" validate:"required"`
-	KetersediaanSd     string `json:"ketersediaan_sd" validate:"required"`
 	KemudahanAksesSd   string `json:"kemudahan_akses_sd" validate:"required"`
 	ApmSd              string `json:"apm_sd" validate:"required"`
-	KetersediaanSmp    string `json:"ketersediaan_smp" validate:"required"`
 	KemudahanAksesSmp  string `json:"kemudahan_akses_smp" validate:"required"`
 	ApmSmp             string `json:"apm_smp" validate:"required"`
-	KetersediaanSma    string `json:"ketersediaan_sma" validate:"required"`
 	KemudahanAksesSma  string `json:"kemudahan_akses_sma" validate:"required"`
 	ApmSma             string `json:"apm_sma" validate:"required"`
 	Year               *int   `json:"year" validate:"omitempty,gte=2000,lte=2100"` // Assuming year is between 2000 and 2100
@@ -18,7 +15,7 @@ type AddSubDimensionPendidikanRequest struct {
 
 type AddSubDimensionKesehatanRequest struct {
 	KemudahanAksesSaranaKesehatan              string `json:"kemudahan_akses_sarana_kesehatan" validate:"required"`
-	KetersediaanSaranaKesehatan                string `json:"ketersediaan_sarana_kesehatan" validate:"required"`
+	KetersediaanFasilitasKesehatan             string `json:"ketersediaan_fasilitas_kesehatan" validate:"required"`
 	KemudahanAksesFasilitasKesehatan           string `json:"kemudahan_akses_fasilitas_kesehatan" validate:"required"`
 	KetersediaanPosyandu                       string `json:"ketersediaan_posyandu" validate:"required"`
 	JumlahAktivitasPosyandu                    string `json:"jumlah_aktivitas_posyandu" validate:"required"`
@@ -50,8 +47,8 @@ type AddSubDimensionUtilitasDasarRequest struct {
 }
 
 type AddSubDimensionAktivitasRequest struct {
-	KearifanSosial                    string `json:"kearifan_sosial" validate:"required"`
-	KearifanSosialDipertahankan       string `json:"kearifan_sosial_dipertahankan" validate:"required"`
+	KearifanBudayaSosial              string `json:"kearifan_budaya_sosial" validate:"required"`
+	KearifanBudayaSosialDipertahankan string `json:"kearifan_budaya_sosial_dipertahankan" validate:"required"`
 	KegiatanGotongRoyong              string `json:"kegiatan_gotong_royong" validate:"required"`
 	FrekuensiGotongRoyong             string `json:"frekuensi_gotong_royong" validate:"required"`
 	KeterlibatanWargaGotongRoyong     string `json:"keterlibatan_warga_gotong_royong" validate:"required"`
