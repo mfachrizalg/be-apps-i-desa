@@ -21,6 +21,7 @@ func setupRoutes(app *fiber.App) {
 	routes.SetupVillagerRoutes(app)
 	routes.SetupVillageRoutes(app)
 	routes.SetupFamilyCardRoutes(app)
+	routes.SetupDashboardRoutes(app)
 }
 
 func main() {

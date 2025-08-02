@@ -45,6 +45,18 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 		return nil, errors.New("invalid date format, expected YYYY-MM-DD")
 	}
 
+	// Check if villager with the same NIK already exists
+	existingVillager, err := s.villagerRepo.FindVillagerByID(&request.NIK)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		log.Println("Error checking existing villager:", err)
+		return nil, errors.New("failed to check existing villager")
+	}
+
+	if existingVillager != nil {
+		log.Println("Villager with the same NIK already exists")
+		return nil, errors.New("villager with the same NIK already exists")
+	}
+
 	villager := &models.Villager{
 		NIK:              request.NIK,
 		NamaLengkap:      request.NamaLengkap,
@@ -69,18 +81,6 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 
 	if request.NomorPaspor != nil {
 		villager.NomorPaspor = request.NomorPaspor
-	}
-
-	// Check if villager with the same NIK already exists
-	existingVillager, err := s.villagerRepo.FindVillagerByID(&request.NIK)
-	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		log.Println("Error checking existing villager:", err)
-		return nil, errors.New("failed to check existing villager")
-	}
-
-	if existingVillager != nil {
-		log.Println("Villager with the same NIK already exists")
-		return nil, errors.New("villager with the same NIK already exists")
 	}
 
 	if err := s.villagerRepo.CreateVillagerWithTx(tx, villager); err != nil {

@@ -3,6 +3,7 @@ package repositories
 import (
 	"Apps-I_Desa_Backend/config"
 	"Apps-I_Desa_Backend/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -22,4 +23,12 @@ func (r *VillageRepository) BeginTransaction() *gorm.DB {
 
 func (r *VillageRepository) CreateVillageWithTx(tx *gorm.DB, village *models.Village) error {
 	return tx.Create(village).Error
+}
+
+func (r *VillageRepository) FindVillageByID(uuid *uuid.UUID) error {
+	var village models.Village
+	if err := r.DB.First(&village, "id = ?", uuid).Error; err != nil {
+		return err
+	}
+	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"Apps-I_Desa_Backend/config"
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"time"
 )
@@ -66,6 +67,49 @@ func (r *VillagerRepository) UpdateVillagerWithTx(tx *gorm.DB, villager *models.
 
 func (r *VillagerRepository) DeleteVillagerWithTx(tx *gorm.DB, nik *string) error {
 	return tx.Delete(&models.Villager{}, "nik = ?", *nik).Error
+}
+
+func (r *VillagerRepository) CountAllVillagerByVillageID(villageID *uuid.UUID) (int64, error) {
+	var count int64
+	err := r.DB.Model(&models.Villager{}).Where("village_id = ?", villageID).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func (r *VillagerRepository) CountAllLakiLakiVillager(villageID *uuid.UUID) (int64, error) {
+	var count int64
+	err := r.DB.Model(&models.Villager{}).Where("village_id = ? AND jenis_kelamin = ?", villageID, "Laki-laki").Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func (r *VillagerRepository) GetAverageAge(villageID *uuid.UUID) (float32, error) {
+	var averageAge float32
+	err := r.DB.Model(&models.Villager{}).
+		Where("village_id = ?", villageID).
+		Select("AVG(DATEDIFF(CURDATE(), tanggal_lahir) / 365.25)").
+		Scan(&averageAge).Error
+	if err != nil {
+		return 0, err
+	}
+	return averageAge, nil
+
+}
+
+func (r *VillagerRepository) CountAllKepalaKeluarga(villageID *uuid.UUID) (int64, error) {
+	var count int64
+	err := r.DB.Model(&models.Villager{}).
+		Where("village_id = ? AND status_hubungan = ?", villageID, "Kepala Keluarga").
+		Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+
 }
 
 func calculateAge(birthDate time.Time) int {
