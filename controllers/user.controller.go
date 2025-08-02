@@ -43,12 +43,32 @@ func (c *UserController) Register(ctx *fiber.Ctx) error {
 	if err != nil {
 		if err.Error() == "username already registered" {
 			return ctx.Status(fiber.StatusConflict).JSON(fiber.Map{
-				"message": "Registration failed",
+				"message": "Username already registered",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to find existing user" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to find existing user",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "error hashing password" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error hashing password",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create user" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to create user",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
 				"error":   err.Error(),
 			})
 		}
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Registration failed",
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal Server Error",
 			"error":   err.Error(),
 		})
 	}

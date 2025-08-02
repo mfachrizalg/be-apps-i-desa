@@ -38,6 +38,17 @@ func (c *VillageController) CreateVillage(ctx *fiber.Ctx) error {
 
 	response, err := c.villageService.CreateVillage(&request)
 	if err != nil {
+		if err.Error() == "failed to create village" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to create village",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create village",
 			"error":   err.Error(),

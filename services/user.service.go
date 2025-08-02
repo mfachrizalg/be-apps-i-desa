@@ -25,10 +25,11 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	existingUser, err := s.userRepo.FindByUsername(request.Username)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		log.Error("Database error: ", err)
-		return nil, errors.New("failed to process registration")
+		return nil, errors.New("failed to find existing user")
 	}
 
 	if existingUser != nil {
+		log.Warn("Username already registered: ", request.Username)
 		return nil, errors.New("username already registered")
 	}
 
@@ -36,7 +37,7 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Error("Error hashing password: ", err)
-		return nil, errors.New("failed to process registration")
+		return nil, errors.New("error hashing password")
 	}
 
 	// Create new user
@@ -58,7 +59,7 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	// Commit the transaction
 	if err := tx.Commit().Error; err != nil {
 		log.Error("Error committing transaction: ", err)
-		return nil, errors.New("failed to complete registration")
+		return nil, errors.New("failed to commit transaction")
 	}
 
 	return &dtos.MessageResponse{

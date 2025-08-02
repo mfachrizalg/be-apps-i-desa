@@ -45,7 +45,3 @@ type UpdateVillagerRequest struct {
 	NamaAyah         *string `json:"nama_ayah,omitempty" validate:"omitempty"`
 	NamaIbu          *string `json:"nama_ibu,omitempty" validate:"omitempty"`
 }
-
-type DeleteVillagerRequest struct {
-	NIK string `json:"nik" validate:"required,len=16,numeric"`
-}

@@ -6,8 +6,8 @@ import (
 	"Apps-I_Desa_Backend/repositories"
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
-	"log"
 )
 
 type SubDimensionService struct {
@@ -25,9 +25,14 @@ func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimen
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -45,11 +50,11 @@ func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimen
 		ApmSma:             req.ApmSma,
 	}
 	if err := s.subDimensionRepo.CreateSubDimensionPendidikanWithTx(tx, subDimensiPendidikan); err != nil {
-		log.Println("Error creating sub dimension pendidikan:", err)
+		log.Error("Error creating sub dimension pendidikan:", err)
 		return nil, errors.New("failed to create sub dimension pendidikan")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 	return &dtos.MessageResponse{
@@ -62,9 +67,14 @@ func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimens
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -94,11 +104,11 @@ func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimens
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionKesehatanWithTx(tx, subDimensiKesehatan); err != nil {
-		log.Println("Error creating sub dimension kesehatan:", err)
+		log.Error("Error creating sub dimension kesehatan:", err)
 		return nil, errors.New("failed to create sub dimension kesehatan")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 	return &dtos.MessageResponse{
@@ -112,9 +122,14 @@ func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDi
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -128,11 +143,11 @@ func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDi
 		PersentaseRumahTidakLayakHuni: req.PersentaseRumahTidakLayakHuni,
 	}
 	if err := s.subDimensionRepo.CreateSubDimensionUtilitasDasarWithTx(tx, subDimensiUtilitasDasar); err != nil {
-		log.Println("Error creating sub dimension utilitas dasar:", err)
+		log.Error("Error creating sub dimension utilitas dasar:", err)
 		return nil, errors.New("failed to create sub dimension utilitas dasar")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -147,9 +162,14 @@ func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimens
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -172,11 +192,11 @@ func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimens
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionAktivitasWithTx(tx, subDimensiAktivitas); err != nil {
-		log.Println("Error creating sub dimension aktivitas:", err)
+		log.Error("Error creating sub dimension aktivitas:", err)
 		return nil, errors.New("failed to create sub dimension aktivitas")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -190,9 +210,14 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.Ad
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -205,11 +230,11 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.Ad
 		KeberadaanRuangPublikTerbuka:         req.KeberadaanRuangPublikTerbuka,
 	}
 	if err := s.subDimensionRepo.CreateSubDimensionFasilitasMasyarakatWithTx(tx, subDimensiFasilitasMasyarakat); err != nil {
-		log.Println("Error creating sub dimension fasilitas masyarakat:", err)
+		log.Error("Error creating sub dimension fasilitas masyarakat:", err)
 		return nil, errors.New("failed to create sub dimension fasilitas masyarakat")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -223,9 +248,14 @@ func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDim
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -243,11 +273,11 @@ func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDim
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionProduksiDesaWithTx(tx, subDimensiPendidikan); err != nil {
-		log.Println("Error creating sub dimension produksi desa:", err)
+		log.Error("Error creating sub dimension produksi desa:", err)
 		return nil, errors.New("failed to create sub dimension produksi desa")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -261,9 +291,14 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *d
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -297,12 +332,12 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *d
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionFasilitasPendukungEkonomiWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension fasilitas pendukung ekonomi:", err)
+		log.Error("Error creating sub dimension fasilitas pendukung ekonomi:", err)
 		return nil, errors.New("failed to create sub dimension fasilitas pendukung ekonomi")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -316,9 +351,14 @@ func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -340,12 +380,12 @@ func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionPengelolaanLingkunganWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension pengelolaan lingkungan:", err)
+		log.Error("Error creating sub dimension pengelolaan lingkungan:", err)
 		return nil, errors.New("failed to create sub dimension pengelolaan lingkungan")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -359,9 +399,14 @@ func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -376,12 +421,12 @@ func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionPenanggulanganBencanaWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension penanggulangan bencana:", err)
+		log.Error("Error creating sub dimension penanggulangan bencana:", err)
 		return nil, errors.New("failed to create sub dimension penanggulangan bencana")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -395,9 +440,14 @@ func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddS
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -411,12 +461,12 @@ func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddS
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionKondisiAksesJalanWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension kondisi akses jalan:", err)
+		log.Error("Error creating sub dimension kondisi akses jalan:", err)
 		return nil, errors.New("failed to create sub dimension kondisi akses jalan")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -430,9 +480,14 @@ func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubD
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -448,12 +503,12 @@ func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubD
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionKemudahanAksesWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension kemudahan akses:", err)
+		log.Error("Error creating sub dimension kemudahan akses:", err)
 		return nil, errors.New("failed to create sub dimension kemudahan akses")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -467,9 +522,14 @@ func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dt
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -486,12 +546,12 @@ func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dt
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionKelembagaanPelayananDesaWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension kelembagaan pelayanan desa:", err)
+		log.Error("Error creating sub dimension kelembagaan pelayanan desa:", err)
 		return nil, errors.New("failed to create sub dimension kelembagaan pelayanan desa")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 
@@ -505,9 +565,14 @@ func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(req *dtos
 	defer tx.Rollback()
 
 	villageIDStr := ctx.Locals("village").(string)
+	// Parse the village ID from the context
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
+		return nil, errors.New("village ID not found")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("invalid village ID")
 	}
 
@@ -526,12 +591,12 @@ func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(req *dtos
 	}
 
 	if err := s.subDimensionRepo.CreateSubDimensionTataKelolaKeuanganDesaWithTx(tx, model); err != nil {
-		log.Println("Error creating sub dimension tata kelola keuangan desa:", err)
+		log.Error("Error creating sub dimension tata kelola keuangan desa:", err)
 		return nil, errors.New("failed to create sub dimension tata kelola keuangan desa")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
+		log.Error("Error committing transaction:", err)
 		return nil, errors.New("failed to commit transaction")
 	}
 

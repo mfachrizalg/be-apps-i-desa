@@ -38,6 +38,27 @@ func (c *SubDimensionController) CreateSubDimensionPendidikan(ctx *fiber.Ctx) er
 
 	response, err := c.subDimensionService.CreateSubDimensionPendidikan(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension pendidikan" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension pendidikan",
 			"error":   err.Error(),
@@ -66,6 +87,27 @@ func (c *SubDimensionController) CreateSubDimensionKesehatan(ctx *fiber.Ctx) err
 
 	response, err := c.subDimensionService.CreateSubDimensionKesehatan(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension kesehatan" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension kesehatan",
 			"error":   err.Error(),
@@ -94,6 +136,27 @@ func (c *SubDimensionController) CreateSubDimensionUtilitasDasar(ctx *fiber.Ctx)
 
 	response, err := c.subDimensionService.CreateSubDimensionUtilitasDasar(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension utilitas dasar" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension utilitas dasar",
 			"error":   err.Error(),
@@ -122,6 +185,27 @@ func (c *SubDimensionController) CreateSubDimensionAktivitas(ctx *fiber.Ctx) err
 
 	response, err := c.subDimensionService.CreateSubDimensionAktivitas(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension aktivitas" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension aktivitas",
 			"error":   err.Error(),
@@ -150,6 +234,27 @@ func (c *SubDimensionController) CreateSubDimensionFasilitasMasyarakat(ctx *fibe
 
 	response, err := c.subDimensionService.CreateSubDimensionFasilitasMasyarakat(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension fasilitas masyarakat" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension fasilitas masyarakat",
 			"error":   err.Error(),
@@ -178,6 +283,27 @@ func (c *SubDimensionController) CreateSubDimensionProduksiDesa(ctx *fiber.Ctx) 
 
 	response, err := c.subDimensionService.CreateSubDimensionProduksiDesa(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension produksi desa" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension produksi desa",
 			"error":   err.Error(),
@@ -206,6 +332,27 @@ func (c *SubDimensionController) CreateSubDimensionFasilitasPendukungEkonomi(ctx
 
 	response, err := c.subDimensionService.CreateSubDimensionFasilitasPendukungEkonomi(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension fasilitas pendukung ekonomi" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension fasilitas pendukung ekonomi",
 			"error":   err.Error(),
@@ -234,6 +381,27 @@ func (c *SubDimensionController) CreateSubDimensionPengelolaanLingkungan(ctx *fi
 
 	response, err := c.subDimensionService.CreateSubDimensionPengelolaanLingkungan(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension pengelolaan lingkungan" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension pengelolaan lingkungan",
 			"error":   err.Error(),
@@ -262,6 +430,27 @@ func (c *SubDimensionController) CreateSubDimensionPenanggulanganBencana(ctx *fi
 
 	response, err := c.subDimensionService.CreateSubDimensionPenanggulanganBencana(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension penanggulangan bencana" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension penanggulangan bencana",
 			"error":   err.Error(),
@@ -290,6 +479,27 @@ func (c *SubDimensionController) CreateSubDimensionKondisiAksesJalan(ctx *fiber.
 
 	response, err := c.subDimensionService.CreateSubDimensionKondisiAksesJalan(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension kondisi akses jalan" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension kondisi akses jalan",
 			"error":   err.Error(),
@@ -318,6 +528,27 @@ func (c *SubDimensionController) CreateSubDimensionKemudahanAkses(ctx *fiber.Ctx
 
 	response, err := c.subDimensionService.CreateSubDimensionKemudahanAkses(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension kemudahan akses" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension kemudahan akses",
 			"error":   err.Error(),
@@ -346,6 +577,27 @@ func (c *SubDimensionController) CreateSubDimensionKelembagaanPelayananDesa(ctx 
 
 	response, err := c.subDimensionService.CreateSubDimensionKelembagaanPelayananDesa(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension kelembagaan pelayanan desa" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension kelembagaan pelayanan desa",
 			"error":   err.Error(),
@@ -374,6 +626,27 @@ func (c *SubDimensionController) CreateSubDimensionTataKelolaKeuanganDesa(ctx *f
 
 	response, err := c.subDimensionService.CreateSubDimensionTataKelolaKeuanganDesa(&request, ctx)
 	if err != nil {
+		if err.Error() == "village ID not found" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID not found",
+				"error":   "Check your token",
+			})
+		} else if err.Error() == "invalid village ID" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to create sub dimension tata kelola keuangan desa" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Invalid sub-dimension type",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to commit transaction" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to commit transaction",
+				"error":   err.Error(),
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to create sub-dimension tata kelola keuangan desa",
 			"error":   err.Error(),

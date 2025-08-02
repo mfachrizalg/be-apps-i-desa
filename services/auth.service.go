@@ -25,20 +25,23 @@ func (s *AuthService) Login(request *dtos.LoginRequest) (*dtos.LoginResponse, er
 	// Find user by username
 	user, err := s.userRepo.FindByUsername(request.Username)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
+		log.Error("User not found: ", request.Username)
 		return nil, errors.New("user not found")
 	} else if err != nil {
 		log.Error("Database error: ", err)
-		return nil, errors.New("failed to process login")
+		return nil, errors.New("failed to retrieve user")
 	}
 
 	// Verify password
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)); err != nil {
+		log.Error("Error compare", err)
 		return nil, errors.New("invalid username or password")
 	}
 
 	// Generate JWT token
 	token, err := generateJWTToken(user)
 	if err != nil {
+		log.Error("Error generating token: ", err)
 		return nil, errors.New("failed to generate token")
 	}
 

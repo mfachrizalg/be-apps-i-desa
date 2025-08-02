@@ -6,8 +6,8 @@ import (
 	"Apps-I_Desa_Backend/repositories"
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
-	"log"
 )
 
 type FamilyCardService struct {
@@ -26,16 +26,27 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 	tx := s.familyCardRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village")
-	if villageIDStr == nil {
-		log.Println("Village ID not found in context")
+	villageIDStr := ctx.Locals("village").(string)
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
 		return nil, errors.New("village ID is required")
 	}
-	villageID, err := uuid.Parse(villageIDStr.(string))
+	villageID, err := uuid.Parse(villageIDStr)
 	// Check if the village ID is valid
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("village ID is not valid")
+	}
+
+	// Check if the NIK already exists
+	existingFamilyCard, err := s.familyCardRepo.GetFamilyCardByID(request.NIK)
+	if err != nil {
+		log.Error("Error checking existing family card:", err)
+		return nil, errors.New("failed to check existing family card")
+	}
+	if existingFamilyCard != nil {
+		log.Error("Family card with this NIK already exists")
+		return nil, errors.New("family card with this NIK already exists")
 	}
 
 	familyCard := &models.FamilyCard{
@@ -52,12 +63,12 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 	}
 
 	if err := s.familyCardRepo.CreateWithTx(tx, familyCard); err != nil {
-		log.Println("Error creating family card:", err)
+		log.Error("Error creating family card:", err)
 		return nil, errors.New("failed to create family card")
 	}
 	if err := tx.Commit().Error; err != nil {
-		log.Println("Error committing transaction:", err)
-		return nil, errors.New("failed to create family card")
+		log.Error("Error committing transaction:", err)
+		return nil, errors.New("failed to commit transaction")
 	}
 
 	return &dtos.MessageResponse{
@@ -68,17 +79,18 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 func (s *FamilyCardService) GetFamilyCardByID(nik string) (*dtos.GetAllFamilyMember, error) {
 	response, err := s.familyCardRepo.GetNIKAndAddressByID(nik)
 	if err != nil {
-		log.Println("Error getting family card by NIK:", err)
+		log.Error("Error getting family card by NIK:", err)
 		return nil, errors.New("failed to get family card by NIK")
 	}
 
 	villagers, err := s.villagerRepo.GetVillagersByFamilyCardID(&nik)
 	if err != nil {
-		log.Println("Error getting villagers by family card ID:", err)
+		log.Error("Error getting villagers by family card ID:", err)
 		return nil, errors.New("failed to get villagers by family card ID")
 	}
 
 	if response == nil {
+		log.Error("Family card not found for NIK:", nik)
 		return nil, errors.New("family card not found")
 	}
 
@@ -98,21 +110,21 @@ func (s *FamilyCardService) GetFamilyCardByID(nik string) (*dtos.GetAllFamilyMem
 }
 
 func (s *FamilyCardService) GetAllFamilyCardsByVillageID(ctx *fiber.Ctx) (*dtos.GetAllFamilyCardsResponse, error) {
-	villageIDStr := ctx.Locals("village")
-	if villageIDStr == nil {
-		log.Println("Village ID not found in context")
+	villageIDStr := ctx.Locals("village").(string)
+	if villageIDStr == "" {
+		log.Error("Village ID not found in context")
 		return nil, errors.New("village ID is required")
 	}
-	villageID, err := uuid.Parse(villageIDStr.(string))
+	villageID, err := uuid.Parse(villageIDStr)
 	// Check if the village ID is valid
 	if err != nil {
-		log.Println("Error parsing village ID:", err)
+		log.Error("Error parsing village ID:", err)
 		return nil, errors.New("village ID is not valid")
 	}
 
 	familyCards, err := s.familyCardRepo.GetAllFamilyCardsByVillageID(&villageID)
 	if err != nil {
-		log.Println("Error getting all family cards:", err)
+		log.Error("Error getting all family cards:", err)
 		return nil, errors.New("failed to get all family cards")
 	}
 
@@ -120,7 +132,7 @@ func (s *FamilyCardService) GetAllFamilyCardsByVillageID(ctx *fiber.Ctx) (*dtos.
 	for _, card := range familyCards {
 		villagers, err := s.villagerRepo.GetVillagersByFamilyCardID(&card.NIK)
 		if err != nil {
-			log.Println("Error getting villagers for family card:", err)
+			log.Error("Error getting villagers for family card:", err)
 			return nil, errors.New("failed to get villagers for family card")
 		}
 		var kepalaKeluarga string

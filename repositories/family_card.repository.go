@@ -47,3 +47,12 @@ func (r *FamilyCardRepository) GetAllFamilyCardsByVillageID(villageID *uuid.UUID
 	}
 	return familyCards, nil
 }
+
+func (r *FamilyCardRepository) GetFamilyCardByID(id string) (*models.FamilyCard, error) {
+	var familyCard models.FamilyCard
+	err := r.DB.Where("id = ?", id).First(&familyCard).Error
+	if err != nil {
+		return nil, err
+	}
+	return &familyCard, nil
+}

@@ -28,6 +28,10 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 
 	// Parse VillageID from string to UUID
 	villageIDStr := ctx.Locals("village").(string)
+	if villageIDStr == "" {
+		log.Println("Village ID is empty")
+		return nil, errors.New("village ID is required")
+	}
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -80,11 +84,13 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 	}
 
 	if err := s.villagerRepo.CreateVillagerWithTx(tx, villager); err != nil {
-		return nil, err
+		log.Println("Error creating villager:", err)
+		return nil, errors.New("failed to create villager")
 	}
 
 	if err := tx.Commit().Error; err != nil {
-		return nil, err
+		log.Println("Error committing transaction:", err)
+		return nil, errors.New("failed to commit transaction")
 	}
 
 	return &dtos.MessageResponse{
@@ -176,7 +182,7 @@ func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillag
 
 	if err := tx.Commit().Error; err != nil {
 		log.Println("Error committing transaction:", err)
-		return nil, errors.New("failed to update villager")
+		return nil, errors.New("failed to commit transaction")
 	}
 
 	return &dtos.MessageResponse{
@@ -185,11 +191,11 @@ func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillag
 
 }
 
-func (s *VillagerService) DeleteVillager(request *dtos.DeleteVillagerRequest) (*dtos.MessageResponse, error) {
+func (s *VillagerService) DeleteVillager(nik *string) (*dtos.MessageResponse, error) {
 	tx := s.villagerRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	_, err := s.villagerRepo.FindVillagerByID(&request.NIK)
+	_, err := s.villagerRepo.FindVillagerByID(nik)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			log.Println("Villager not found:", err)
@@ -199,13 +205,13 @@ func (s *VillagerService) DeleteVillager(request *dtos.DeleteVillagerRequest) (*
 		return nil, errors.New("failed to find villager")
 	}
 
-	if err := s.villagerRepo.DeleteVillagerWithTx(tx, &request.NIK); err != nil {
+	if err := s.villagerRepo.DeleteVillagerWithTx(tx, nik); err != nil {
 		log.Println("Error deleting villager:", err)
 		return nil, errors.New("failed to delete villager")
 	}
 	if err := tx.Commit().Error; err != nil {
 		log.Println("Error committing transaction:", err)
-		return nil, errors.New("failed to delete villager")
+		return nil, errors.New("failed to commit transaction")
 	}
 
 	return &dtos.MessageResponse{

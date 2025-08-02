@@ -42,10 +42,33 @@ func (c *AuthController) Login(ctx *fiber.Ctx) error {
 	// Process login
 	response, err := c.authService.Login(&request)
 	if err != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Login failed",
-			"error":   err.Error(),
-		})
+		// Handle specific error cases
+		if err.Error() == "user not found" {
+			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"message": "User not found",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to retrieve user" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to retrieve user",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "invalid username or password" {
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Invalid username or password",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to generate token" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to generate token",
+				"error":   err.Error(),
+			})
+		} else {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Internal Server Error",
+				"error":   err.Error(),
+			})
+		}
 	}
 
 	cookie := fiber.Cookie{
