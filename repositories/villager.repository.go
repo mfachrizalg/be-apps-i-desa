@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"Apps-I_Desa_Backend/config"
+	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"gorm.io/gorm"
+	"time"
 )
 
 type VillagerRepository struct {
@@ -20,6 +22,60 @@ func (r *VillagerRepository) BeginTransaction() *gorm.DB {
 	return r.DB.Begin()
 }
 
+func (r *VillagerRepository) FindVillagerByID(nik *string) (*models.Villager, error) {
+	var villager models.Villager
+	err := r.DB.Where("nik = ?", &nik).First(&villager).Error
+	if err != nil {
+		return nil, err
+	}
+	return &villager, nil
+
+}
+
 func (r *VillagerRepository) CreateVillagerWithTx(tx *gorm.DB, villager *models.Villager) error {
 	return tx.Create(villager).Error
+}
+
+func (r *VillagerRepository) GetVillagersByFamilyCardID(familyCardID *string) ([]*dtos.GetFamilyMember, error) {
+	var villagers []*models.Villager
+	err := r.DB.Where("family_card_id = ?", &familyCardID).Find(&villagers).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var familyMembers []*dtos.GetFamilyMember
+	for _, villager := range villagers {
+		age := calculateAge(villager.TanggalLahir)
+		familyMember := &dtos.GetFamilyMember{
+			Name:           villager.NamaLengkap,
+			StatusHubungan: villager.StatusHubungan,
+			Age:            age,
+			JenisKelamin:   villager.JenisKelamin,
+			Pendidikan:     villager.Pendidikan,
+			Pekerjaan:      villager.Pekerjaan,
+		}
+		familyMembers = append(familyMembers, familyMember)
+	}
+
+	return familyMembers, nil
+}
+
+func (r *VillagerRepository) UpdateVillagerWithTx(tx *gorm.DB, villager *models.Villager) error {
+	return tx.Save(villager).Error
+}
+
+func (r *VillagerRepository) DeleteVillagerWithTx(tx *gorm.DB, nik *string) error {
+	return tx.Delete(&models.Villager{}, "nik = ?", *nik).Error
+}
+
+func calculateAge(birthDate time.Time) int {
+	now := time.Now()
+	age := now.Year() - birthDate.Year()
+
+	// Adjust if birthday hasn't occurred this year
+	if now.YearDay() < birthDate.YearDay() {
+		age--
+	}
+
+	return age
 }

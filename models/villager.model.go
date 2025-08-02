@@ -6,7 +6,7 @@ import (
 )
 
 type Villager struct {
-	NIK              string    `gorm:"primaryKey"`
+	NIK              string    `gorm:"primaryKey;size:16"`
 	NamaLengkap      string    `gorm:"size:100;not null"`
 	JenisKelamin     string    `gorm:"size:10;not null"` // e.g., "Laki-laki", "Perempuan"
 	TempatLahir      string    `gorm:"size:100;not null"`

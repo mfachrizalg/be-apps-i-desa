@@ -18,4 +18,5 @@ func SetupVillagerRoutes(app *fiber.App) {
 	api.Use(middleware.JWTAuth())
 
 	api.Post("/", villagerController.CreateVillager)
+	api.Put("/:id", villagerController.UpdateVillager)
 }

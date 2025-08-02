@@ -7,6 +7,7 @@ import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"log"
 	"time"
 )
@@ -26,7 +27,7 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 	defer tx.Rollback()
 
 	// Parse VillageID from string to UUID
-	villageIDStr := ctx.Locals("villageID").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -66,6 +67,18 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 		villager.NomorPaspor = request.NomorPaspor
 	}
 
+	// Check if villager with the same NIK already exists
+	existingVillager, err := s.villagerRepo.FindVillagerByID(&request.NIK)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		log.Println("Error checking existing villager:", err)
+		return nil, errors.New("failed to check existing villager")
+	}
+
+	if existingVillager != nil {
+		log.Println("Villager with the same NIK already exists")
+		return nil, errors.New("villager with the same NIK already exists")
+	}
+
 	if err := s.villagerRepo.CreateVillagerWithTx(tx, villager); err != nil {
 		return nil, err
 	}
@@ -78,4 +91,124 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 		Message: "Villager created successfully",
 	}, nil
 
+}
+
+func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillagerRequest) (*dtos.MessageResponse, error) {
+	tx := s.villagerRepo.BeginTransaction()
+	defer tx.Rollback()
+
+	villager, err := s.villagerRepo.FindVillagerByID(nik)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println("Villager not found:", err)
+			return nil, errors.New("villager not found")
+		}
+		log.Println("Error finding villager:", err)
+		return nil, errors.New("failed to find villager")
+	}
+
+	if request.NIK != nil {
+		// Check if villager with the same NIK already exists
+		existingVillager, err := s.villagerRepo.FindVillagerByID(request.NIK)
+		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println("Error checking existing villager:", err)
+			return nil, errors.New("failed to check existing villager")
+		}
+
+		if existingVillager != nil && existingVillager.NIK != *nik {
+			log.Println("Villager with the same NIK already exists")
+			return nil, errors.New("villager with the same NIK already exists")
+		}
+		villager.NIK = *request.NIK
+	}
+
+	if request.NamaLengkap != nil {
+		villager.NamaLengkap = *request.NamaLengkap
+	}
+	if request.JenisKelamin != nil {
+		villager.JenisKelamin = *request.JenisKelamin
+	}
+	if request.TempatLahir != nil {
+		villager.TempatLahir = *request.TempatLahir
+	}
+	if request.TanggalLahir != nil {
+		// Validate TanggalLahir format
+		if _, err := time.Parse("2006-01-02", *request.TanggalLahir); err != nil {
+			log.Println("Error parsing date:", err)
+			return nil, errors.New("invalid date format, expected YYYY-MM-DD")
+		}
+	}
+	if request.Agama != nil {
+		villager.Agama = *request.Agama
+	}
+	if request.Pendidikan != nil {
+		villager.Pendidikan = *request.Pendidikan
+	}
+	if request.Pekerjaan != nil {
+		villager.Pekerjaan = *request.Pekerjaan
+	}
+	if request.StatusPerkawinan != nil {
+		villager.StatusPerkawinan = *request.StatusPerkawinan
+	}
+	if request.StatusHubungan != nil {
+		villager.StatusHubungan = *request.StatusHubungan
+	}
+	if request.Kewarganegaraan != nil {
+		villager.Kewarganegaraan = *request.Kewarganegaraan
+	}
+	if request.NamaAyah != nil {
+		villager.NamaAyah = *request.NamaAyah
+	}
+	if request.NamaIbu != nil {
+		villager.NamaIbu = *request.NamaIbu
+	}
+	if request.NomorKitas != nil {
+		villager.NomorKitas = request.NomorKitas
+	}
+	if request.NomorPaspor != nil {
+		villager.NomorPaspor = request.NomorPaspor
+	}
+
+	if err := s.villagerRepo.UpdateVillagerWithTx(tx, villager); err != nil {
+		log.Println("Error updating villager:", err)
+		return nil, errors.New("failed to update villager")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		log.Println("Error committing transaction:", err)
+		return nil, errors.New("failed to update villager")
+	}
+
+	return &dtos.MessageResponse{
+		Message: "Villager updated successfully",
+	}, nil
+
+}
+
+func (s *VillagerService) DeleteVillager(request *dtos.DeleteVillagerRequest) (*dtos.MessageResponse, error) {
+	tx := s.villagerRepo.BeginTransaction()
+	defer tx.Rollback()
+
+	_, err := s.villagerRepo.FindVillagerByID(&request.NIK)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println("Villager not found:", err)
+			return nil, errors.New("villager not found")
+		}
+		log.Println("Error finding villager:", err)
+		return nil, errors.New("failed to find villager")
+	}
+
+	if err := s.villagerRepo.DeleteVillagerWithTx(tx, &request.NIK); err != nil {
+		log.Println("Error deleting villager:", err)
+		return nil, errors.New("failed to delete villager")
+	}
+	if err := tx.Commit().Error; err != nil {
+		log.Println("Error committing transaction:", err)
+		return nil, errors.New("failed to delete villager")
+	}
+
+	return &dtos.MessageResponse{
+		Message: "Villager deleted successfully",
+	}, nil
 }
