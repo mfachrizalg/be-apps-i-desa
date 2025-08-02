@@ -24,7 +24,7 @@ func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimen
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -64,7 +64,7 @@ func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimens
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -114,7 +114,7 @@ func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDi
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -149,7 +149,7 @@ func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimens
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -192,7 +192,7 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.Ad
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -225,7 +225,7 @@ func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDim
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -263,7 +263,7 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *d
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -318,7 +318,7 @@ func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -361,7 +361,7 @@ func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -397,7 +397,7 @@ func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddS
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -432,7 +432,7 @@ func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubD
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -469,7 +469,7 @@ func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dt
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
@@ -507,7 +507,7 @@ func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(req *dtos
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villageIDStr := ctx.Locals("village_id").(string)
+	villageIDStr := ctx.Locals("village").(string)
 	villageID, err := uuid.Parse(villageIDStr)
 	if err != nil {
 		log.Println("Error parsing village ID:", err)
