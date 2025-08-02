@@ -70,3 +70,15 @@ func (c *FamilyCardController) GetFamilyCardByID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
+
+func (c *FamilyCardController) GetAllFamilyCards(ctx *fiber.Ctx) error {
+	response, err := c.familyCardService.GetAllFamilyCards()
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to retrieve family cards",
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
+}

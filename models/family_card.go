@@ -6,7 +6,7 @@ import (
 )
 
 type FamilyCard struct {
-	NIK           string    `gorm:"primaryKey"`
+	NIK           string    `gorm:"primaryKey;size:16"`
 	Alamat        string    `gorm:"size:50;not null"`
 	RT            string    `gorm:"size:50;not null"`
 	RW            string    `gorm:"size:50;not null"`

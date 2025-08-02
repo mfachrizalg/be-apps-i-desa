@@ -14,17 +14,12 @@ type GetFamilyCardResponse struct {
 
 type GetAllFamilyMember struct {
 	NIK           string            `json:"nik"`
-	Alamat        string            `json:"alamat"`
+	Address       string            `json:"address"`
 	FamilyMembers []GetFamilyMember `json:"family_members"`
 }
 
-type GetFamilyCardByID struct {
-	NIK     string `json:"nik"`
-	Address string `json:"address"`
-}
-
 type AddFamilyCardRequest struct {
-	NIK           string `json:"nik" validate:"required"`
+	NIK           string `json:"nik" validate:"required,len=16,numeric"`
 	Address       string `json:"address" validate:"required"`
 	RT            string `json:"rt" validate:"required"`
 	RW            string `json:"rw" validate:"required"`
@@ -33,5 +28,4 @@ type AddFamilyCardRequest struct {
 	KabupatenKota string `json:"kabupaten_kota" validate:"required"`
 	KodePos       string `json:"kode_pos" validate:"required"`
 	Provinsi      string `json:"provinsi" validate:"required"`
-	VillageID     string `json:"village_id" validate:"required"`
 }
