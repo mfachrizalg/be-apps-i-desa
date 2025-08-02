@@ -4,6 +4,7 @@ import (
 	"Apps-I_Desa_Backend/config"
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -38,9 +39,9 @@ func (r *FamilyCardRepository) GetNIKAndAddressByID(nik string) (*dtos.GetAllFam
 	}, nil
 }
 
-func (r *FamilyCardRepository) GetAllFamilyCards() ([]*models.FamilyCard, error) {
+func (r *FamilyCardRepository) GetAllFamilyCardsByVillageID(villageID *uuid.UUID) ([]*models.FamilyCard, error) {
 	var familyCards []*models.FamilyCard
-	err := r.DB.Find(&familyCards).Error
+	err := r.DB.Find(&familyCards).Where("village_id = ?", villageID).Error
 	if err != nil {
 		return nil, err
 	}

@@ -97,8 +97,20 @@ func (s *FamilyCardService) GetFamilyCardByID(nik string) (*dtos.GetAllFamilyMem
 	}, nil
 }
 
-func (s *FamilyCardService) GetAllFamilyCards() (*dtos.GetAllFamilyCardsResponse, error) {
-	familyCards, err := s.familyCardRepo.GetAllFamilyCards()
+func (s *FamilyCardService) GetAllFamilyCardsByVillageID(ctx *fiber.Ctx) (*dtos.GetAllFamilyCardsResponse, error) {
+	villageIDStr := ctx.Locals("village")
+	if villageIDStr == nil {
+		log.Println("Village ID not found in context")
+		return nil, errors.New("village ID is required")
+	}
+	villageID, err := uuid.Parse(villageIDStr.(string))
+	// Check if the village ID is valid
+	if err != nil {
+		log.Println("Error parsing village ID:", err)
+		return nil, errors.New("village ID is not valid")
+	}
+
+	familyCards, err := s.familyCardRepo.GetAllFamilyCardsByVillageID(&villageID)
 	if err != nil {
 		log.Println("Error getting all family cards:", err)
 		return nil, errors.New("failed to get all family cards")

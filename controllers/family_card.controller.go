@@ -72,8 +72,26 @@ func (c *FamilyCardController) GetFamilyCardByID(ctx *fiber.Ctx) error {
 }
 
 func (c *FamilyCardController) GetAllFamilyCards(ctx *fiber.Ctx) error {
-	response, err := c.familyCardService.GetAllFamilyCards()
+	response, err := c.familyCardService.GetAllFamilyCardsByVillageID(ctx)
 	if err != nil {
+		if err.Error() == "village ID is required" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Village ID is required",
+			})
+		} else if err.Error() == "village ID is not valid" {
+			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"message": "Invalid village ID format",
+			})
+		} else if err.Error() == "failed to get all family cards" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to retrieve family cards",
+				"error":   err.Error(),
+			})
+		} else if err.Error() == "failed to get villagers for family card" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Failed to get villagers for family card",
+			})
+		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to retrieve family cards",
 			"error":   err.Error(),
