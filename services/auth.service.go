@@ -61,8 +61,7 @@ func generateJWTToken(user *models.User) (string, error) {
 
 	// Create claims
 	claims := jwt.MapClaims{
-		"id":      user.Username,
-		"village": user.Village,
+		"village": user.VillageID,
 		"exp":     expTime.Unix(),
 	}
 

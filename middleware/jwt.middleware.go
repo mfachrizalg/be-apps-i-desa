@@ -37,8 +37,8 @@ func JWTAuth() fiber.Handler {
 
 		// Extract claims and set village ID in context
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
-			if villageID, exists := claims["village_id"]; exists {
-				c.Locals("village_id", villageID)
+			if villageID, exists := claims["village"]; exists {
+				c.Locals("village", villageID)
 			}
 		}
 
