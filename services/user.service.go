@@ -11,12 +11,14 @@ import (
 )
 
 type UserService struct {
-	userRepo *repositories.UserRepository
+	userRepo    *repositories.UserRepository
+	villageRepo *repositories.VillageRepository
 }
 
-func NewUserService(userRepo *repositories.UserRepository) *UserService {
+func NewUserService(userRepo *repositories.UserRepository, villageRepo *repositories.VillageRepository) *UserService {
 	return &UserService{
-		userRepo: userRepo,
+		userRepo:    userRepo,
+		villageRepo: villageRepo,
 	}
 }
 
@@ -38,6 +40,13 @@ func (s *UserService) Register(request *dtos.RegisterRequest) (*dtos.MessageResp
 	if err != nil {
 		log.Error("Error hashing password: ", err)
 		return nil, errors.New("error hashing password")
+	}
+
+	// Validate village ID
+	err = s.villageRepo.FindVillageByID(&request.VillageID)
+	if err != nil {
+		log.Error("Village not found: ", request.VillageID, " - Error: ", err)
+		return nil, errors.New("village not found")
 	}
 
 	// Create new user

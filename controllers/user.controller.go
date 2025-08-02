@@ -66,6 +66,11 @@ func (c *UserController) Register(ctx *fiber.Ctx) error {
 				"message": "Failed to commit transaction",
 				"error":   err.Error(),
 			})
+		} else if err.Error() == "village not found" {
+			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"message": "Village not found",
+				"error":   err.Error(),
+			})
 		}
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Internal Server Error",
