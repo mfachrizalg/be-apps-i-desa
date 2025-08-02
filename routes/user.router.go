@@ -8,8 +8,9 @@ import (
 )
 
 func SetupUserRoutes(app *fiber.App) {
+	villageRepo := repositories.NewVillageRepository()
 	userRepo := repositories.NewUserRepository()
-	userService := services.NewUserService(userRepo)
+	userService := services.NewUserService(userRepo, villageRepo)
 	userController := controllers.NewUserController(userService)
 
 	userRoutes := app.Group("/api/users")
