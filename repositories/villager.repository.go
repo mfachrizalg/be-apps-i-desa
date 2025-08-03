@@ -91,13 +91,12 @@ func (r *VillagerRepository) GetAverageAge(villageID *uuid.UUID) (float32, error
 	var averageAge float32
 	err := r.DB.Model(&models.Villager{}).
 		Where("village_id = ?", villageID).
-		Select("AVG(DATEDIFF(CURDATE(), tanggal_lahir) / 365.25)").
+		Select("AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, tanggal_lahir)))").
 		Scan(&averageAge).Error
 	if err != nil {
 		return 0, err
 	}
 	return averageAge, nil
-
 }
 
 func (r *VillagerRepository) CountAllKepalaKeluarga(villageID *uuid.UUID) (int64, error) {
