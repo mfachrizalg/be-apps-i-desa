@@ -39,7 +39,7 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 	}
 
 	// Check if the NIK already exists
-	existingFamilyCard, err := s.familyCardRepo.GetFamilyCardByID(request.NIK)
+	existingFamilyCard, err := s.familyCardRepo.GetFamilyCardByNIK(&request.NIK)
 	if err != nil {
 		log.Error("Error checking existing family card:", err)
 		return nil, errors.New("failed to check existing family card")
@@ -76,14 +76,14 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 	}, nil
 }
 
-func (s *FamilyCardService) GetFamilyCardByID(nik string) (*dtos.GetAllFamilyMember, error) {
-	response, err := s.familyCardRepo.GetNIKAndAddressByID(nik)
+func (s *FamilyCardService) GetFamilyCardByNIK(nik string) (*dtos.GetAllFamilyMember, error) {
+	response, err := s.familyCardRepo.GetNIKAndAddressByNIK(nik)
 	if err != nil {
 		log.Error("Error getting family card by NIK:", err)
 		return nil, errors.New("failed to get family card by NIK")
 	}
 
-	villagers, err := s.villagerRepo.GetVillagersByFamilyCardID(&nik)
+	villagers, err := s.villagerRepo.GetVillagersByFamilyCardNIK(&nik)
 	if err != nil {
 		log.Error("Error getting villagers by family card ID:", err)
 		return nil, errors.New("failed to get villagers by family card ID")
@@ -130,7 +130,7 @@ func (s *FamilyCardService) GetAllFamilyCardsByVillageID(ctx *fiber.Ctx) (*dtos.
 
 	var response dtos.GetAllFamilyCardsResponse
 	for _, card := range familyCards {
-		villagers, err := s.villagerRepo.GetVillagersByFamilyCardID(&card.NIK)
+		villagers, err := s.villagerRepo.GetVillagersByFamilyCardNIK(&card.NIK)
 		if err != nil {
 			log.Error("Error getting villagers for family card:", err)
 			return nil, errors.New("failed to get villagers for family card")

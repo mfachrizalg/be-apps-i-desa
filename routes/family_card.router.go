@@ -20,5 +20,5 @@ func SetupFamilyCardRoutes(app *fiber.App) {
 
 	api.Get("/", familyCardController.GetAllFamilyCards)
 	api.Post("/", familyCardController.AddFamilyCard)
-	api.Get("/:id", familyCardController.GetFamilyCardByID)
+	api.Get("/:id", familyCardController.GetFamilyCardByNIK)
 }

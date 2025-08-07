@@ -81,8 +81,8 @@ func (c *FamilyCardController) AddFamilyCard(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(response)
 }
 
-// GetFamilyCardByID retrieves a family card by its ID
-func (c *FamilyCardController) GetFamilyCardByID(ctx *fiber.Ctx) error {
+// GetFamilyCardByNIK retrieves a family card by its NIK
+func (c *FamilyCardController) GetFamilyCardByNIK(ctx *fiber.Ctx) error {
 	familyCardID := ctx.Params("id")
 	if familyCardID == "" {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -91,7 +91,7 @@ func (c *FamilyCardController) GetFamilyCardByID(ctx *fiber.Ctx) error {
 		})
 	}
 
-	response, err := c.familyCardService.GetFamilyCardByID(familyCardID)
+	response, err := c.familyCardService.GetFamilyCardByNIK(familyCardID)
 	if err != nil {
 		if err.Error() == "family card not found" {
 			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{

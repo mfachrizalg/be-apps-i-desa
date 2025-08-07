@@ -23,7 +23,7 @@ func (r *VillagerRepository) BeginTransaction() *gorm.DB {
 	return r.DB.Begin()
 }
 
-func (r *VillagerRepository) FindVillagerByID(nik *string) (*models.Villager, error) {
+func (r *VillagerRepository) FindVillagerByNIK(nik *string) (*models.Villager, error) {
 	var villager models.Villager
 	err := r.DB.Where("nik = ?", &nik).First(&villager).Error
 	if err != nil {
@@ -37,9 +37,9 @@ func (r *VillagerRepository) CreateVillagerWithTx(tx *gorm.DB, villager *models.
 	return tx.Create(villager).Error
 }
 
-func (r *VillagerRepository) GetVillagersByFamilyCardID(familyCardID *string) ([]*dtos.GetFamilyMember, error) {
+func (r *VillagerRepository) GetVillagersByFamilyCardNIK(familyCardNIK *string) ([]*dtos.GetFamilyMember, error) {
 	var villagers []*models.Villager
-	err := r.DB.Where("family_card_id = ?", &familyCardID).Find(&villagers).Error
+	err := r.DB.Where("family_card_id = ?", &familyCardNIK).Find(&villagers).Error
 	if err != nil {
 		return nil, err
 	}

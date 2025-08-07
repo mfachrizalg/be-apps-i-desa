@@ -26,7 +26,7 @@ func (r *FamilyCardRepository) CreateWithTx(tx *gorm.DB, familyCard *models.Fami
 	return tx.Create(familyCard).Error
 }
 
-func (r *FamilyCardRepository) GetNIKAndAddressByID(nik string) (*dtos.GetAllFamilyMember, error) {
+func (r *FamilyCardRepository) GetNIKAndAddressByNIK(nik string) (*dtos.GetAllFamilyMember, error) {
 	var familyCard models.FamilyCard
 	err := r.DB.Where("nik = ?", nik).Select("nik", "alamat").First(&familyCard).Error
 	if err != nil {
@@ -48,9 +48,9 @@ func (r *FamilyCardRepository) GetAllFamilyCardsByVillageID(villageID *uuid.UUID
 	return familyCards, nil
 }
 
-func (r *FamilyCardRepository) GetFamilyCardByID(id string) (*models.FamilyCard, error) {
+func (r *FamilyCardRepository) GetFamilyCardByNIK(nik *string) (*models.FamilyCard, error) {
 	var familyCard models.FamilyCard
-	err := r.DB.Where("id = ?", id).First(&familyCard).Error
+	err := r.DB.Where("nik = ?", &nik).First(&familyCard).Error
 	if err != nil {
 		return nil, err
 	}

@@ -46,7 +46,7 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 	}
 
 	// Check if villager with the same NIK already exists
-	existingVillager, err := s.villagerRepo.FindVillagerByID(&request.NIK)
+	existingVillager, err := s.villagerRepo.FindVillagerByNIK(&request.NIK)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		log.Println("Error checking existing villager:", err)
 		return nil, errors.New("failed to check existing villager")
@@ -103,7 +103,7 @@ func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillag
 	tx := s.villagerRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	villager, err := s.villagerRepo.FindVillagerByID(nik)
+	villager, err := s.villagerRepo.FindVillagerByNIK(nik)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			log.Println("Villager not found:", err)
@@ -115,7 +115,7 @@ func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillag
 
 	if request.NIK != nil {
 		// Check if villager with the same NIK already exists
-		existingVillager, err := s.villagerRepo.FindVillagerByID(request.NIK)
+		existingVillager, err := s.villagerRepo.FindVillagerByNIK(request.NIK)
 		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 			log.Println("Error checking existing villager:", err)
 			return nil, errors.New("failed to check existing villager")
@@ -195,7 +195,7 @@ func (s *VillagerService) DeleteVillager(nik *string) (*dtos.MessageResponse, er
 	tx := s.villagerRepo.BeginTransaction()
 	defer tx.Rollback()
 
-	_, err := s.villagerRepo.FindVillagerByID(nik)
+	_, err := s.villagerRepo.FindVillagerByNIK(nik)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			log.Println("Villager not found:", err)
