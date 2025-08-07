@@ -72,9 +72,11 @@ func ConnectDB() *gorm.DB {
 		log.Fatal("Failed to get database connection pool: ", err)
 	}
 
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxOpenConns(100)
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	// Configure connection pool for limited connections
+	sqlDB.SetMaxOpenConns(3) // Maximum 3 connections
+	sqlDB.SetMaxIdleConns(1) // Keep 1 idle connection
+	sqlDB.SetConnMaxLifetime(30 * time.Minute)
+	sqlDB.SetConnMaxIdleTime(5 * time.Minute)
 
 	// Run migrations
 	if err := migrateDB(DB); err != nil {
