@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type FamilyCardService struct {
@@ -40,9 +41,9 @@ func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest,
 
 	// Check if the NIK already exists
 	existingFamilyCard, err := s.familyCardRepo.GetFamilyCardByNIK(&request.NIK)
-	if err != nil {
-		log.Error("Error checking existing family card:", err)
-		return nil, errors.New("failed to check existing family card")
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		log.Error("Database Error", err)
+		return nil, errors.New("failed to find existing family card")
 	}
 	if existingFamilyCard != nil {
 		log.Error("Family card with this NIK already exists")
