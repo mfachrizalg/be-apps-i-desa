@@ -5,6 +5,7 @@ import (
 	"Apps-I_Desa_Backend/services"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"time"
 )
 
 type AuthController struct {
@@ -74,8 +75,9 @@ func (c *AuthController) Login(ctx *fiber.Ctx) error {
 	cookie := fiber.Cookie{
 		Name:     "AppsIDesaCookie",
 		Value:    response.Token,
-		MaxAge:   3600,  // 1 hour
-		Secure:   false, // Set to true if using HTTPS
+		MaxAge:   3600, // 1 hour
+		Expires:  time.Now().Add(time.Hour),
+		Secure:   false, // set true in production with HTTPS
 		HTTPOnly: true,
 		SameSite: "Lax",
 	}
@@ -89,6 +91,15 @@ func (c *AuthController) Login(ctx *fiber.Ctx) error {
 func (c *AuthController) Logout(ctx *fiber.Ctx) error {
 	response := c.authService.Logout()
 	ctx.ClearCookie("AppsIDesaCookie")
+	ctx.Cookie(&fiber.Cookie{
+		Name:     "AppsIDesaCookie",
+		Value:    "",
+		MaxAge:   -1,
+		Expires:  time.Unix(0, 0),
+		Secure:   false,
+		HTTPOnly: true,
+		SameSite: "Lax",
+	})
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
