@@ -1,24 +1,17 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/index.go",
-      "use": "@vercel/go"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "build": {
+    "env": {
+      "GO_BUILD_FLAGS": "-ldflags '-s -w'"
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.go"
-    }
-  ],
-  "env": {
-    "GO_ENV": "production"
   },
   "functions": {
-    "api/index.go": {
-      "memory": 1024,
-      "maxDuration": 10
+    "api/main.go": {
+      "maxDuration": 10,
+      "memory": 1024
     }
-  }
+  },
+  "rewrites": [
+    { "source": "(.*)", "destination": "/api/main.go" }
+  ]
 }
