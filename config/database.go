@@ -1,11 +1,11 @@
 package config
 
 import (
-	models2 "Apps-I_Desa_Backend/models"
 	"fmt"
 	"os"
 	"time"
 
+	models2 "Apps-I_Desa_Backend/models"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"

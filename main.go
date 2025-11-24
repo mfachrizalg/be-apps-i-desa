@@ -1,13 +1,13 @@
 package main
 
 import (
-	"Apps-I_Desa_Backend/config"
-	"Apps-I_Desa_Backend/routes"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"Apps-I_Desa_Backend/config"
+	"Apps-I_Desa_Backend/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"

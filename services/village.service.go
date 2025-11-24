@@ -1,11 +1,12 @@
 package services
 
 import (
+	"errors"
+	"log"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
-	"log"
 )
 
 type VillageService struct {
@@ -18,7 +19,9 @@ func NewVillageService(villageRepo *repositories.VillageRepository) *VillageServ
 	}
 }
 
-func (s *VillageService) CreateVillage(request *dtos.AddVillageRequest) (*dtos.MessageResponse, error) {
+func (s *VillageService) CreateVillage(
+	request *dtos.AddVillageRequest,
+) (*dtos.MessageResponse, error) {
 	tx := s.villageRepo.BeginTransaction()
 	defer tx.Rollback()
 

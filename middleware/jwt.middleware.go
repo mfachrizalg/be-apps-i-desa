@@ -1,9 +1,10 @@
 package middleware
 
 import (
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
-	"os"
 )
 
 func JWTAuth() fiber.Handler {
@@ -21,7 +22,6 @@ func JWTAuth() fiber.Handler {
 			}
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
-
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "Unauthorized: Invalid token",

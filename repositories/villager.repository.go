@@ -1,12 +1,13 @@
 package repositories
 
 import (
+	"time"
+
 	"Apps-I_Desa_Backend/config"
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 type VillagerRepository struct {
@@ -30,14 +31,15 @@ func (r *VillagerRepository) FindVillagerByNIK(nik *string) (*models.Villager, e
 		return nil, err
 	}
 	return &villager, nil
-
 }
 
 func (r *VillagerRepository) CreateVillagerWithTx(tx *gorm.DB, villager *models.Villager) error {
 	return tx.Create(villager).Error
 }
 
-func (r *VillagerRepository) GetVillagersByFamilyCardNIK(familyCardNIK *string) ([]*dtos.GetFamilyMember, error) {
+func (r *VillagerRepository) GetVillagersByFamilyCardNIK(
+	familyCardNIK *string,
+) ([]*dtos.GetFamilyMember, error) {
 	var villagers []*models.Villager
 	err := r.DB.Where("family_card_id = ?", &familyCardNIK).Find(&villagers).Error
 	if err != nil {
@@ -80,7 +82,10 @@ func (r *VillagerRepository) CountAllVillagerByVillageID(villageID *uuid.UUID) (
 
 func (r *VillagerRepository) CountAllLakiLakiVillager(villageID *uuid.UUID) (int64, error) {
 	var count int64
-	err := r.DB.Model(&models.Villager{}).Where("village_id = ? AND jenis_kelamin = ?", villageID, "Laki-laki").Count(&count).Error
+	err := r.DB.Model(&models.Villager{}).
+		Where("village_id = ? AND jenis_kelamin = ?", villageID, "Laki-laki").
+		Count(&count).
+		Error
 	if err != nil {
 		return 0, err
 	}
@@ -108,7 +113,6 @@ func (r *VillagerRepository) CountAllKepalaKeluarga(villageID *uuid.UUID) (int64
 		return 0, err
 	}
 	return count, nil
-
 }
 
 func calculateAge(birthDate time.Time) int {

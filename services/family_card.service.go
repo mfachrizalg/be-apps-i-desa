@@ -1,10 +1,11 @@
 package services
 
 import (
+	"errors"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
@@ -16,14 +17,20 @@ type FamilyCardService struct {
 	villagerRepo   *repositories.VillagerRepository
 }
 
-func NewFamilyCardService(familyCardRepo *repositories.FamilyCardRepository, villagerRepo *repositories.VillagerRepository) *FamilyCardService {
+func NewFamilyCardService(
+	familyCardRepo *repositories.FamilyCardRepository,
+	villagerRepo *repositories.VillagerRepository,
+) *FamilyCardService {
 	return &FamilyCardService{
 		familyCardRepo: familyCardRepo,
 		villagerRepo:   villagerRepo,
 	}
 }
 
-func (s *FamilyCardService) CreateFamilyCard(request *dtos.AddFamilyCardRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *FamilyCardService) CreateFamilyCard(
+	request *dtos.AddFamilyCardRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.familyCardRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -110,7 +117,9 @@ func (s *FamilyCardService) GetFamilyCardByNIK(nik string) (*dtos.GetAllFamilyMe
 	}, nil
 }
 
-func (s *FamilyCardService) GetAllFamilyCardsByVillageID(ctx *fiber.Ctx) (*dtos.GetAllFamilyCardsResponse, error) {
+func (s *FamilyCardService) GetAllFamilyCardsByVillageID(
+	ctx *fiber.Ctx,
+) (*dtos.GetAllFamilyCardsResponse, error) {
 	villageIDStr := ctx.Locals("village").(string)
 	if villageIDStr == "" {
 		log.Error("Village ID not found in context")

@@ -85,7 +85,7 @@ func (c *VillagerController) CreateVillager(ctx *fiber.Ctx) error {
 
 func (c *VillagerController) UpdateVillager(ctx *fiber.Ctx) error {
 	var request dtos.UpdateVillagerRequest
-	var nik = ctx.Params("nik")
+	nik := ctx.Params("nik")
 	if nik == "" {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"Message": "NIK is required",
@@ -167,7 +167,7 @@ func (c *VillagerController) UpdateVillager(ctx *fiber.Ctx) error {
 }
 
 func (c *VillagerController) DeleteVillager(ctx *fiber.Ctx) error {
-	var nik = ctx.Params("nik")
+	nik := ctx.Params("nik")
 	if nik == "" {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"Message": "NIK is required",

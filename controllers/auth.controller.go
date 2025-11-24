@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"time"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/services"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"time"
 )
 
 type AuthController struct {

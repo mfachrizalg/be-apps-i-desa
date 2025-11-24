@@ -37,13 +37,22 @@ func SetupSubDimensionRoutes(app *fiber.App) {
 	api.Post("/produksi-desa", subDimensionController.CreateSubDimensionProduksiDesa)
 
 	// Fasilitas Pendukung Ekonomi routes
-	api.Post("/fasilitas-pendukung-ekonomi", subDimensionController.CreateSubDimensionFasilitasPendukungEkonomi)
+	api.Post(
+		"/fasilitas-pendukung-ekonomi",
+		subDimensionController.CreateSubDimensionFasilitasPendukungEkonomi,
+	)
 
 	// Pengelolaan Lingkungan routes
-	api.Post("/pengelolaan-lingkungan", subDimensionController.CreateSubDimensionPengelolaanLingkungan)
+	api.Post(
+		"/pengelolaan-lingkungan",
+		subDimensionController.CreateSubDimensionPengelolaanLingkungan,
+	)
 
 	// Penanggulangan Bencana routes
-	api.Post("/penanggulangan-bencana", subDimensionController.CreateSubDimensionPenanggulanganBencana)
+	api.Post(
+		"/penanggulangan-bencana",
+		subDimensionController.CreateSubDimensionPenanggulanganBencana,
+	)
 
 	// Kondisi Akses Jalan routes
 	api.Post("/kondisi-akses-jalan", subDimensionController.CreateSubDimensionKondisiAksesJalan)
@@ -52,8 +61,14 @@ func SetupSubDimensionRoutes(app *fiber.App) {
 	api.Post("/kemudahan-akses", subDimensionController.CreateSubDimensionKemudahanAkses)
 
 	// Kelembagaan Pelayanan Desa routes
-	api.Post("/kelembagaan-pelayanan-desa", subDimensionController.CreateSubDimensionKelembagaanPelayananDesa)
+	api.Post(
+		"/kelembagaan-pelayanan-desa",
+		subDimensionController.CreateSubDimensionKelembagaanPelayananDesa,
+	)
 
 	// Tata Kelola Keuangan Desa routes
-	api.Post("/tata-kelola-keuangan-desa", subDimensionController.CreateSubDimensionTataKelolaKeuanganDesa)
+	api.Post(
+		"/tata-kelola-keuangan-desa",
+		subDimensionController.CreateSubDimensionTataKelolaKeuanganDesa,
+	)
 }

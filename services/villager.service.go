@@ -1,15 +1,16 @@
 package services
 
 import (
+	"errors"
+	"log"
+	"time"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"log"
-	"time"
 )
 
 type VillagerService struct {
@@ -22,7 +23,10 @@ func NewVillagerService(villagerRepo *repositories.VillagerRepository) *Villager
 	}
 }
 
-func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *VillagerService) CreateVillager(
+	request *dtos.AddVillagerRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.villagerRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -96,10 +100,12 @@ func (s *VillagerService) CreateVillager(request *dtos.AddVillagerRequest, ctx *
 	return &dtos.MessageResponse{
 		Message: "Villager created successfully",
 	}, nil
-
 }
 
-func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillagerRequest) (*dtos.MessageResponse, error) {
+func (s *VillagerService) UpdateVillager(
+	nik *string,
+	request *dtos.UpdateVillagerRequest,
+) (*dtos.MessageResponse, error) {
 	tx := s.villagerRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -188,7 +194,6 @@ func (s *VillagerService) UpdateVillager(nik *string, request *dtos.UpdateVillag
 	return &dtos.MessageResponse{
 		Message: "Villager updated successfully",
 	}, nil
-
 }
 
 func (s *VillagerService) DeleteVillager(nik *string) (*dtos.MessageResponse, error) {

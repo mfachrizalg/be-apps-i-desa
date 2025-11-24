@@ -12,7 +12,9 @@ type SubDimensionController struct {
 	validate            *validator.Validate
 }
 
-func NewSubDimensionController(subDimensionService *services.SubDimensionService) *SubDimensionController {
+func NewSubDimensionController(
+	subDimensionService *services.SubDimensionService,
+) *SubDimensionController {
 	return &SubDimensionController{
 		subDimensionService: subDimensionService,
 		validate:            validator.New(),
@@ -330,7 +332,10 @@ func (c *SubDimensionController) CreateSubDimensionFasilitasPendukungEkonomi(ctx
 		})
 	}
 
-	response, err := c.subDimensionService.CreateSubDimensionFasilitasPendukungEkonomi(&request, ctx)
+	response, err := c.subDimensionService.CreateSubDimensionFasilitasPendukungEkonomi(
+		&request,
+		ctx,
+	)
 	if err != nil {
 		if err.Error() == "village ID not found" {
 			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{

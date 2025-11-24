@@ -1,10 +1,11 @@
 package services
 
 import (
+	"errors"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
@@ -14,13 +15,18 @@ type SubDimensionService struct {
 	subDimensionRepo *repositories.SubDimensionRepository
 }
 
-func NewSubDimensionService(subDimensionRepo *repositories.SubDimensionRepository) *SubDimensionService {
+func NewSubDimensionService(
+	subDimensionRepo *repositories.SubDimensionRepository,
+) *SubDimensionService {
 	return &SubDimensionService{
 		subDimensionRepo: subDimensionRepo,
 	}
 }
 
-func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimensionPendidikanRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionPendidikan(
+	req *dtos.AddSubDimensionPendidikanRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -62,7 +68,10 @@ func (s *SubDimensionService) CreateSubDimensionPendidikan(req *dtos.AddSubDimen
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimensionKesehatanRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionKesehatan(
+	req *dtos.AddSubDimensionKesehatanRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -114,10 +123,12 @@ func (s *SubDimensionService) CreateSubDimensionKesehatan(req *dtos.AddSubDimens
 	return &dtos.MessageResponse{
 		Message: "Sub Dimension Kesehatan created successfully",
 	}, nil
-
 }
 
-func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDimensionUtilitasDasarRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(
+	req *dtos.AddSubDimensionUtilitasDasarRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -154,10 +165,12 @@ func (s *SubDimensionService) CreateSubDimensionUtilitasDasar(req *dtos.AddSubDi
 	return &dtos.MessageResponse{
 		Message: "Sub Dimension Utilitas Dasar created successfully",
 	}, nil
-
 }
 
-func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimensionAktivitasRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionAktivitas(
+	req *dtos.AddSubDimensionAktivitasRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -205,7 +218,10 @@ func (s *SubDimensionService) CreateSubDimensionAktivitas(req *dtos.AddSubDimens
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.AddSubDimensionFasilitasMasyarakatRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(
+	req *dtos.AddSubDimensionFasilitasMasyarakatRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -243,7 +259,10 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasMasyarakat(req *dtos.Ad
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDimensionProduksiDesaRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionProduksiDesa(
+	req *dtos.AddSubDimensionProduksiDesaRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -286,7 +305,10 @@ func (s *SubDimensionService) CreateSubDimensionProduksiDesa(req *dtos.AddSubDim
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *dtos.AddSubDimensionFasilitasPendukungEkonomiRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(
+	req *dtos.AddSubDimensionFasilitasPendukungEkonomiRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -346,7 +368,10 @@ func (s *SubDimensionService) CreateSubDimensionFasilitasPendukungEkonomi(req *d
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.AddSubDimensionPengelolaanLingkunganRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(
+	req *dtos.AddSubDimensionPengelolaanLingkunganRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -394,7 +419,10 @@ func (s *SubDimensionService) CreateSubDimensionPengelolaanLingkungan(req *dtos.
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.AddSubDimensionPenanggulanganBencanaRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(
+	req *dtos.AddSubDimensionPenanggulanganBencanaRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -435,7 +463,10 @@ func (s *SubDimensionService) CreateSubDimensionPenanggulanganBencana(req *dtos.
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddSubDimensionKondisiAksesJalanRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(
+	req *dtos.AddSubDimensionKondisiAksesJalanRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -475,7 +506,10 @@ func (s *SubDimensionService) CreateSubDimensionKondisiAksesJalan(req *dtos.AddS
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubDimensionKemudahanAksesRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(
+	req *dtos.AddSubDimensionKemudahanAksesRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -517,7 +551,10 @@ func (s *SubDimensionService) CreateSubDimensionKemudahanAkses(req *dtos.AddSubD
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dtos.AddSubDimensionKelembagaanPelayananDesaRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(
+	req *dtos.AddSubDimensionKelembagaanPelayananDesaRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -560,7 +597,10 @@ func (s *SubDimensionService) CreateSubDimensionKelembagaanPelayananDesa(req *dt
 	}, nil
 }
 
-func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(req *dtos.AddSubDimensionTataKelolaKeuanganDesaRequest, ctx *fiber.Ctx) (*dtos.MessageResponse, error) {
+func (s *SubDimensionService) CreateSubDimensionTataKelolaKeuanganDesa(
+	req *dtos.AddSubDimensionTataKelolaKeuanganDesaRequest,
+	ctx *fiber.Ctx,
+) (*dtos.MessageResponse, error) {
 	tx := s.subDimensionRepo.BeginTransaction()
 	defer tx.Rollback()
 

@@ -39,7 +39,9 @@ func (r *FamilyCardRepository) GetNIKAndAddressByNIK(nik string) (*dtos.GetAllFa
 	}, nil
 }
 
-func (r *FamilyCardRepository) GetAllFamilyCardsByVillageID(villageID *uuid.UUID) ([]*models.FamilyCard, error) {
+func (r *FamilyCardRepository) GetAllFamilyCardsByVillageID(
+	villageID *uuid.UUID,
+) ([]*models.FamilyCard, error) {
 	var familyCards []*models.FamilyCard
 	err := r.DB.Find(&familyCards).Where("village_id = ?", villageID).Error
 	if err != nil {
@@ -68,7 +70,11 @@ func (r *FamilyCardRepository) CountAllFamilyCardByVillageID(villageID *uuid.UUI
 
 func (r *FamilyCardRepository) CountDistinctRT(villageID *uuid.UUID) (int64, error) {
 	var count int64
-	err := r.DB.Model(&models.FamilyCard{}).Where("village_id = ?", villageID).Distinct("rt").Count(&count).Error
+	err := r.DB.Model(&models.FamilyCard{}).
+		Where("village_id = ?", villageID).
+		Distinct("rt").
+		Count(&count).
+		Error
 	if err != nil {
 		return 0, err
 	}
@@ -77,7 +83,11 @@ func (r *FamilyCardRepository) CountDistinctRT(villageID *uuid.UUID) (int64, err
 
 func (r *FamilyCardRepository) CountDistinctRW(villageID *uuid.UUID) (int64, error) {
 	var count int64
-	err := r.DB.Model(&models.FamilyCard{}).Where("village_id = ?", villageID).Distinct("rw").Count(&count).Error
+	err := r.DB.Model(&models.FamilyCard{}).
+		Where("village_id = ?", villageID).
+		Distinct("rw").
+		Count(&count).
+		Error
 	if err != nil {
 		return 0, err
 	}
@@ -86,7 +96,11 @@ func (r *FamilyCardRepository) CountDistinctRW(villageID *uuid.UUID) (int64, err
 
 func (r *FamilyCardRepository) CountDistinctKelurahan(villageID *uuid.UUID) (int64, error) {
 	var count int64
-	err := r.DB.Model(&models.FamilyCard{}).Where("village_id = ?", villageID).Distinct("kelurahan").Count(&count).Error
+	err := r.DB.Model(&models.FamilyCard{}).
+		Where("village_id = ?", villageID).
+		Distinct("kelurahan").
+		Count(&count).
+		Error
 	if err != nil {
 		return 0, err
 	}
@@ -95,7 +109,11 @@ func (r *FamilyCardRepository) CountDistinctKelurahan(villageID *uuid.UUID) (int
 
 func (r *FamilyCardRepository) CountDistinctKecamatan(villageID *uuid.UUID) (int64, error) {
 	var count int64
-	err := r.DB.Model(&models.FamilyCard{}).Where("village_id = ?", villageID).Distinct("kecamatan").Count(&count).Error
+	err := r.DB.Model(&models.FamilyCard{}).
+		Where("village_id = ?", villageID).
+		Distinct("kecamatan").
+		Count(&count).
+		Error
 	if err != nil {
 		return 0, err
 	}

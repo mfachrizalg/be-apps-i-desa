@@ -1,13 +1,14 @@
 package services
 
 import (
+	"errors"
+	"sync"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
-	"sync"
 )
 
 type DashboardService struct {
@@ -15,7 +16,10 @@ type DashboardService struct {
 	familyCardRepo *repositories.FamilyCardRepository
 }
 
-func NewDashboardService(villagerRepo *repositories.VillagerRepository, familyCardRepo *repositories.FamilyCardRepository) *DashboardService {
+func NewDashboardService(
+	villagerRepo *repositories.VillagerRepository,
+	familyCardRepo *repositories.FamilyCardRepository,
+) *DashboardService {
 	return &DashboardService{
 		villagerRepo:   villagerRepo,
 		familyCardRepo: familyCardRepo,

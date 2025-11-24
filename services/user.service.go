@@ -1,10 +1,11 @@
 package services
 
 import (
+	"errors"
+
 	"Apps-I_Desa_Backend/dtos"
 	"Apps-I_Desa_Backend/models"
 	"Apps-I_Desa_Backend/repositories"
-	"errors"
 	"github.com/gofiber/fiber/v2/log"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -15,7 +16,10 @@ type UserService struct {
 	villageRepo *repositories.VillageRepository
 }
 
-func NewUserService(userRepo *repositories.UserRepository, villageRepo *repositories.VillageRepository) *UserService {
+func NewUserService(
+	userRepo *repositories.UserRepository,
+	villageRepo *repositories.VillageRepository,
+) *UserService {
 	return &UserService{
 		userRepo:    userRepo,
 		villageRepo: villageRepo,

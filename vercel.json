@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.go",
+      "use": "@vercel/go"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.go"
+    }
+  ],
+  "env": {
+    "GO_ENV": "production"
+  },
+  "functions": {
+    "api/index.go": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}
