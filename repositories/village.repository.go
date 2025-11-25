@@ -32,3 +32,11 @@ func (r *VillageRepository) FindVillageByID(uuid *uuid.UUID) error {
 	}
 	return nil
 }
+
+func (r *VillageRepository) FindVillageByName(name string) *models.Village {
+	var village models.Village
+	if err := r.DB.First(&village, "name = ?", name).Error; err != nil {
+		return nil
+	}
+	return &village
+}

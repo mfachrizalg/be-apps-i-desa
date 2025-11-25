@@ -19,7 +19,28 @@ type AddVillagerRequest struct {
 	FamilyCardID     string  `json:"family_card_id"    validate:"required"`
 }
 
+type GetVillagerResponse struct {
+	NIK              string  `json:"nik"`
+	NamaLengkap      string  `json:"nama_lengkap"`
+	JenisKelamin     string  `json:"jenis_kelamin"`
+	TempatLahir      string  `json:"tempat_lahir"`
+	TanggalLahir     string  `json:"tanggal_lahir"`
+	Agama            string  `json:"agama"`
+	Pendidikan       string  `json:"pendidikan"`
+	Pekerjaan        string  `json:"pekerjaan"`
+	StatusPerkawinan string  `json:"status_perkawinan"`
+	StatusHubungan   string  `json:"status_hubungan"`
+	Kewarganegaraan  string  `json:"kewarganegaraan"`
+	NomorPaspor      *string `json:"nomor_paspor,omitempty"`
+	NomorKitas       *string `json:"nomor_kitas,omitempty"`
+	NamaAyah         string  `json:"nama_ayah"`
+	NamaIbu          string  `json:"nama_ibu"`
+	FamilyCardID     string  `json:"family_card_id"`
+	VillageID        string  `json:"village_id"`
+}
+
 type GetFamilyMember struct {
+	NIK            string `json:"nik"`
 	Name           string `json:"name"`
 	StatusHubungan string `json:"status_hubungan"`
 	Age            int    `json:"age"`

@@ -83,6 +83,36 @@ func (c *VillagerController) CreateVillager(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(response)
 }
 
+func (c *VillagerController) GetVillager(ctx *fiber.Ctx) error {
+	nik := ctx.Params("nik")
+	if nik == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"Message": "NIK is required",
+		})
+	}
+
+	response, err := c.villagerService.GetVillagerByNIK(&nik)
+	if err != nil {
+		if err.Error() == "villager not found" {
+			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"Message": "Villager not found",
+				"Error":   err.Error(),
+			})
+		} else if err.Error() == "failed to get villager by NIK" {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"Message": "Failed to get villager by NIK",
+				"Error":   err.Error(),
+			})
+		}
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"Message": "Internal Server Error",
+			"Error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
+}
+
 func (c *VillagerController) UpdateVillager(ctx *fiber.Ctx) error {
 	var request dtos.UpdateVillagerRequest
 	nik := ctx.Params("nik")

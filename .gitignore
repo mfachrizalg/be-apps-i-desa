@@ -27,3 +27,6 @@ go.work.sum
 .idea
 
 Apps-I_Desa_Backend
+
+.claude
+.venv

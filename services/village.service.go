@@ -21,7 +21,7 @@ func NewVillageService(villageRepo *repositories.VillageRepository) *VillageServ
 
 func (s *VillageService) CreateVillage(
 	request *dtos.AddVillageRequest,
-) (*dtos.MessageResponse, error) {
+) (*dtos.CreateVillageResponse, error) {
 	tx := s.villageRepo.BeginTransaction()
 	defer tx.Rollback()
 
@@ -39,7 +39,14 @@ func (s *VillageService) CreateVillage(
 		return nil, errors.New("failed to commit transaction")
 	}
 
-	return &dtos.MessageResponse{
+	newVillage := s.villageRepo.FindVillageByName(request.Name)
+	if newVillage == nil {
+		return nil, errors.New("village not found after creation")
+	}
+
+	return &dtos.CreateVillageResponse{
 		Message: "Village created successfully",
+		ID:      newVillage.ID,
+		Name:    newVillage.Name,
 	}, nil
 }

@@ -50,6 +50,7 @@ func (r *VillagerRepository) GetVillagersByFamilyCardNIK(
 	for _, villager := range villagers {
 		age := calculateAge(villager.TanggalLahir)
 		familyMember := &dtos.GetFamilyMember{
+			NIK:            villager.NIK,
 			Name:           villager.NamaLengkap,
 			StatusHubungan: villager.StatusHubungan,
 			Age:            age,

@@ -9,7 +9,7 @@ info:
 servers:
   - url: http://localhost:3000
     description: Development server
-  - url: https://be-apps-i-desa-production.up.railway.app
+  - url: https://be-apps-i-desa.vercel.app/
     description: Production server
 
 components:
@@ -113,6 +113,23 @@ components:
           description: Village name
           example: Desa Sukamaju
 
+    CreateVillageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Village UUID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        name:
+          type: string
+          description: Village name
+          example: Desa Sukamaju
+        message:
+          type: string
+          description: Response message
+          example: Village created successfully
+
     # Family Card DTOs
     AddFamilyCardRequest:
       type: object
@@ -193,6 +210,11 @@ components:
     GetFamilyMember:
       type: object
       properties:
+        nik:
+          type: string
+          pattern: '^[0-9]{16}$'
+          description: 16-digit National ID Number
+          example: "3201234567890001"
         name:
           type: string
           description: Full name
@@ -322,6 +344,81 @@ components:
           type: string
           description: Family card ID
           example: "3201234567890001"
+
+    GetVillagerResponse:
+      type: object
+      properties:
+        nik:
+          type: string
+          pattern: '^[0-9]{16}$'
+          description: 16-digit National ID Number
+          example: "3201234567890001"
+        nama_lengkap:
+          type: string
+          description: Full name of villager
+          example: John Doe
+        jenis_kelamin:
+          type: string
+          description: Gender
+          example: L
+        tempat_lahir:
+          type: string
+          description: Place of birth
+          example: Jakarta
+        tanggal_lahir:
+          type: string
+          description: Date of birth
+          example: "1990-01-15"
+        agama:
+          type: string
+          description: Religion
+          example: Islam
+        pendidikan:
+          type: string
+          description: Education level
+          example: S1
+        pekerjaan:
+          type: string
+          description: Occupation
+          example: PNS
+        status_perkawinan:
+          type: string
+          description: Marital status
+          example: Kawin
+        status_hubungan:
+          type: string
+          description: Family relationship status
+          example: Kepala Keluarga
+        kewarganegaraan:
+          type: string
+          description: Citizenship
+          example: WNI
+        nomor_paspor:
+          type: string
+          nullable: true
+          description: Passport number (optional)
+          example: null
+        nomor_kitas:
+          type: string
+          nullable: true
+          description: KITAS number (optional)
+          example: null
+        nama_ayah:
+          type: string
+          description: Father's name
+          example: John Sr.
+        nama_ibu:
+          type: string
+          description: Mother's name
+          example: Jane Doe
+        family_card_id:
+          type: string
+          description: Family card ID
+          example: "3201234567890001"
+        village_id:
+          type: string
+          description: Village ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
 
     UpdateVillagerRequest:
       type: object
@@ -1123,6 +1220,23 @@ components:
           example: 1
 
 paths:
+  # Root endpoint
+  /:
+    get:
+      tags:
+        - Health Check
+      summary: API health check
+      description: Returns API status message
+      security: []
+      responses:
+        '200':
+          description: API is running
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Apps-I Desa API!
+
   # Authentication endpoints
   /api/auth/login:
     post:
@@ -1231,7 +1345,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/CreateVillageResponse'
         '400':
           description: Invalid request or validation failed
           content:
@@ -1252,6 +1366,8 @@ paths:
         - Family Cards
       summary: Get all family cards
       description: Retrieve list of all family cards for the authenticated user's village
+      security:
+        - cookieAuth: []
       responses:
         '200':
           description: Family cards retrieved successfully
@@ -1277,6 +1393,8 @@ paths:
         - Family Cards
       summary: Add new family card
       description: Create a new family card record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -1291,11 +1409,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/MessageResponse'
         '400':
-          description: Invalid input data
+          description: Invalid input data or village ID required
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationError'
+        '409':
+          description: Family card with this NIK already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Failed to create family card
           content:
@@ -1308,23 +1432,32 @@ paths:
       tags:
         - Family Cards
       summary: Get family card by ID
-      description: Retrieve family card information by ID
+      description: Retrieve family card information with all family members by family card NIK
+      security:
+        - cookieAuth: []
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: Family card ID
+            pattern: '^[0-9]{16}$'
+          description: Family card NIK (16 digits)
       responses:
         '200':
-          description: Family card found
+          description: Family card found with all members
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MessageResponse'
+                $ref: '#/components/schemas/GetAllFamilyMember'
         '400':
           description: Family card ID is required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Family card not found
           content:
             application/json:
               schema:
@@ -1343,6 +1476,8 @@ paths:
         - Villagers
       summary: Add new villager
       description: Create a new villager record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -1376,6 +1511,47 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
   /api/villagers/{nik}:
+    get:
+      tags:
+        - Villagers
+      summary: Get villager by NIK
+      description: Retrieve villager information by NIK
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: nik
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9]{16}$'
+          description: 16-digit NIK
+      responses:
+        '200':
+          description: Villager found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVillagerResponse'
+        '400':
+          description: NIK is required or invalid format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Villager not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to retrieve villager
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
     put:
       tags:
         - Villagers
@@ -1389,9 +1565,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '^[0-9]{16}
+            pattern: '^[0-9]{16}$'
             description: 16-digit NIK
-        requestBody:
+      requestBody:
           required: true
           content:
             application/json:
@@ -1477,6 +1653,8 @@ paths:
         - Sub Dimensions
       summary: Add education sub-dimension data
       description: Create education sub-dimension record for village development indicators
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -1509,6 +1687,8 @@ paths:
         - Sub Dimensions
       summary: Add health sub-dimension data
       description: Create health sub-dimension record for village development indicators
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -1541,20 +1721,33 @@ paths:
         - Sub Dimensions
       summary: Add basic utilities sub-dimension data
       description: Create basic utilities sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              # Schema would include all the utilitas dasar fields from your DTO
+              $ref: '#/components/schemas/AddSubDimensionUtilitasDasarRequest'
       responses:
         '201':
           description: Basic utilities data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension utilitas dasar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/aktivitas:
     post:
@@ -1562,20 +1755,33 @@ paths:
         - Sub Dimensions
       summary: Add activities sub-dimension data
       description: Create activities sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              # Schema would include all the aktivitas fields from your DTO
+              $ref: '#/components/schemas/AddSubDimensionAktivitasRequest'
       responses:
         '201':
           description: Activities data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension aktivitas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/fasilitas-masyarakat:
     post:
@@ -1583,19 +1789,33 @@ paths:
         - Sub Dimensions
       summary: Add community facilities sub-dimension data
       description: Create community facilities sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/AddSubDimensionFasilitasMasyarakatRequest'
       responses:
         '201':
           description: Community facilities data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension fasilitas masyarakat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/produksi-desa:
     post:
@@ -1603,19 +1823,33 @@ paths:
         - Sub Dimensions
       summary: Add village production sub-dimension data
       description: Create village production sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/AddSubDimensionProduksiDesaRequest'
       responses:
         '201':
           description: Village production data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension produksi desa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/fasilitas-pendukung-ekonomi:
     post:
@@ -1623,19 +1857,33 @@ paths:
         - Sub Dimensions
       summary: Add economic support facilities sub-dimension data
       description: Create economic support facilities sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/AddSubDimensionFasilitasPendukungEkonomiRequest'
       responses:
         '201':
           description: Economic support facilities data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension fasilitas pendukung ekonomi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/pengelolaan-lingkungan:
     post:
@@ -1643,19 +1891,33 @@ paths:
         - Sub Dimensions
       summary: Add environmental management sub-dimension data
       description: Create environmental management sub-dimension record
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
+              $ref: '#/components/schemas/AddSubDimensionPengelolaanLingkunganRequest'
       responses:
         '201':
           description: Environmental management data created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
         '400':
           description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Failed to create sub-dimension pengelolaan lingkungan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/penanggulangan-bencana:
       post:
@@ -1663,19 +1925,33 @@ paths:
           - Sub Dimensions
         summary: Add disaster management sub-dimension data
         description: Create disaster management sub-dimension record
+        security:
+          - cookieAuth: []
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/AddSubDimensionPenanggulanganBencanaRequest'
         responses:
           '201':
             description: Disaster management data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageResponse'
           '400':
             description: Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationError'
           '500':
             description: Failed to create sub-dimension penanggulangan bencana
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/kondisi-akses-jalan:
       post:
@@ -1683,19 +1959,33 @@ paths:
           - Sub Dimensions
         summary: Add road access condition sub-dimension data
         description: Create road access condition sub-dimension record
+        security:
+          - cookieAuth: []
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/AddSubDimensionKondisiAksesJalanRequest'
         responses:
           '201':
             description: Road access condition data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageResponse'
           '400':
             description: Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationError'
           '500':
             description: Failed to create sub-dimension kondisi akses jalan
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/kemudahan-akses:
       post:
@@ -1703,19 +1993,33 @@ paths:
           - Sub Dimensions
         summary: Add access convenience sub-dimension data
         description: Create access convenience sub-dimension record
+        security:
+          - cookieAuth: []
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/AddSubDimensionKemudahanAksesRequest'
         responses:
           '201':
             description: Access convenience data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageResponse'
           '400':
             description: Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationError'
           '500':
             description: Failed to create sub-dimension kemudahan akses
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/kelembagaan-pelayanan-desa:
       post:
@@ -1723,19 +2027,33 @@ paths:
           - Sub Dimensions
         summary: Add village service institution sub-dimension data
         description: Create village service institution sub-dimension record
+        security:
+          - cookieAuth: []
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/AddSubDimensionKelembagaanPelayananDesaRequest'
         responses:
           '201':
             description: Village service institution data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageResponse'
           '400':
             description: Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationError'
           '500':
             description: Failed to create sub-dimension kelembagaan pelayanan desa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
 
   /api/sub-dimensions/tata-kelola-keuangan-desa:
       post:
@@ -1743,16 +2061,59 @@ paths:
           - Sub Dimensions
         summary: Add village financial governance sub-dimension data
         description: Create village financial governance sub-dimension record
+        security:
+          - cookieAuth: []
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/AddSubDimensionTataKelolaKeuanganDesaRequest'
         responses:
           '201':
             description: Village financial governance data created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/MessageResponse'
           '400':
             description: Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationError'
           '500':
             description: Failed to create sub-dimension tata kelola keuangan desa
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+  # Dashboard endpoints
+  /api/dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Get dashboard statistics
+      description: Retrieve comprehensive village statistics including population, families, and demographics
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Dashboard statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDashboardResponse'
+        '400':
+          description: Village ID is required or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to retrieve dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

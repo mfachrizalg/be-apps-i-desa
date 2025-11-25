@@ -102,6 +102,38 @@ func (s *VillagerService) CreateVillager(
 	}, nil
 }
 
+func (s *VillagerService) GetVillagerByNIK(nik *string) (*dtos.GetVillagerResponse, error) {
+	villager, err := s.villagerRepo.FindVillagerByNIK(nik)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			log.Println("Villager not found:", err)
+			return nil, errors.New("villager not found")
+		}
+		log.Println("Error finding villager:", err)
+		return nil, errors.New("failed to find villager")
+	}
+	response := &dtos.GetVillagerResponse{
+		NIK:              villager.NIK,
+		NamaLengkap:      villager.NamaLengkap,
+		JenisKelamin:     villager.JenisKelamin,
+		TempatLahir:      villager.TempatLahir,
+		TanggalLahir:     villager.TanggalLahir.Format("2006-01-02"),
+		Agama:            villager.Agama,
+		Pendidikan:       villager.Pendidikan,
+		Pekerjaan:        villager.Pekerjaan,
+		StatusPerkawinan: villager.StatusPerkawinan,
+		StatusHubungan:   villager.StatusHubungan,
+		Kewarganegaraan:  villager.Kewarganegaraan,
+		NomorPaspor:      villager.NomorPaspor,
+		NomorKitas:       villager.NomorKitas,
+		NamaAyah:         villager.NamaAyah,
+		NamaIbu:          villager.NamaIbu,
+		FamilyCardID:     villager.FamilyCardID,
+		VillageID:        villager.VillageID.String(),
+	}
+	return response, nil
+}
+
 func (s *VillagerService) UpdateVillager(
 	nik *string,
 	request *dtos.UpdateVillagerRequest,
